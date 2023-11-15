@@ -1,0 +1,33 @@
+{
+  "name": "sportify-web-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/sportify-web-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/sportify-web-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "sportify-web:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "sportify-web:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "sportify-web:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/sportify-web-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["sportify-web"]
+}
