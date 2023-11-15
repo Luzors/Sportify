@@ -14,7 +14,18 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@sportify-nx/backend/dto": ["libs/backend/dto/src/index.ts"],
+      "@sportify-nx/backend/features": ["libs/backend/features/src/index.ts"],
+      "@sportify-nx/shared/api": ["libs/shared/api/src/index.ts"],
+      "@sportify-nx/sportify-basics/common": [
+        "libs/sportify-basics/common/src/index.ts"
+      ],
+      "@sportify-nx/sportify-basics/features": [
+        "libs/sportify-basics/features/src/index.ts"
+      ],
+      "@sportify-nx/ui": ["libs/sportify-basics/ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
