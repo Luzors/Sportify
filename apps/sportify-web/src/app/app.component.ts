@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import {FeaturesModule} from '@sportify-nx/sportify-basics/features'
+import {UiModule} from '@sportify-nx/ui'
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule, FeaturesModule],
+  imports: [UiModule, RouterModule, FeaturesModule],
   selector: 'sportify-nx-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
