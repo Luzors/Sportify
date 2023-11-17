@@ -3,5 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [CommonModule],
+  declarations: [],
+  exports: []
 })
-export class CommonModule {}
+export class CommonModule2 {}

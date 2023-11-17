@@ -16,7 +16,15 @@ export class UserService {
             male: true,
             roles: 'user',
             birthdate: new Date(2002, 4, 16)
-        },
+        }, {
+            id: `1`,
+            name: 'Milko',
+            email: 'M.put@gmail.com',
+            password: 'password',
+            male: true,
+            roles: 'user',
+            birthdate: new Date(2003, 7, 28)
+        }
     ]);
 
     getAll(): IUser[] {
@@ -45,12 +53,12 @@ export class UserService {
         const newUsers: IUser = {
             ...user,
             id: `user-${Math.floor(Math.random() * 10000)}`,
-            name: 'Milko',
-            email: 'M.put@gmail.com',
-            password: 'password',
+            name: '',
+            email: '',
+            password: '',
             male: true,
-            roles: 'user',
-            birthdate: new Date(2001, 8, 12)
+            roles: '',
+            birthdate: new Date()
             
         };
         this.users$.next([...current, newUsers]);
