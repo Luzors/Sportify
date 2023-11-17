@@ -1,0 +1,32 @@
+<body class="bg-gray-100">
+    <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
+        <div class="flex justify-between items-center mb-5">
+            <h2 class="text-2xl font-bold">{{ user?.name }}'s Profile</h2>
+            <a routerLink="/users/{{ user?.id }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
+            <p class="p-3 bg-gray-200 rounded">{{ user?.id }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+            <p class="p-3 bg-gray-200 rounded">{{ user?.name }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+            <p class="p-3 bg-gray-200 rounded">{{ user?.email }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Gender</label>
+            <p class="p-3 bg-gray-200 rounded">{{ user?.male ? 'Male' : 'Female' }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Roles</label>
+            <p class="p-3 bg-gray-200 rounded">{{ user?.roles }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Birthdate</label>
+            <p class="p-3 bg-gray-200 rounded">{{ user?.birthdate | date }}</p>
+        </div>
+    </div>
+</body>

@@ -48,15 +48,16 @@ export class UserService {
      *
      */
     public read(id: string | null, options?: any): Observable<IUser> {
-        console.log(`read ${this.endpoint}`);
+        // ... existing code ...
+    
         return this.http
-            .get<ApiResponse<IUser>>(this.endpoint, {
+            .get<ApiResponse<IUser[]>>(this.endpoint + '/' + id, {
                 ...options,
                 ...httpOptions,
             })
             .pipe(
                 tap(console.log),
-                map((response: any) => response.results as IUser),
+                map((response: any) => response.results as IUser), 
                 catchError(this.handleError)
             );
     }
