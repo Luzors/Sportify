@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { AboutComponent, HomefillerComponent } from '@sportify-nx/sportify-basics/features';
+import { AboutComponent, HomefillerComponent, UserDetailComponent, UserListComponent } from '@sportify-nx/sportify-basics/features';
+
 
 
 export const appRoutes: Route[] = [
@@ -13,6 +14,16 @@ export const appRoutes: Route[] = [
        path: 'about',
        pathMatch: 'full',
        component: AboutComponent
+    },
+    {
+        path: 'users',
+        pathMatch: 'full',
+        component: UserListComponent
+    },
+    {
+        path: 'users/:id',
+        pathMatch: 'full',
+        component: UserDetailComponent
     }
 
 ];

@@ -24,7 +24,8 @@
       "@sportify-nx/sportify-basics/features": [
         "libs/sportify-basics/features/src/index.ts"
       ],
-      "@sportify-nx/ui": ["libs/sportify-basics/ui/src/index.ts"]
+      "@sportify-nx/ui": ["libs/sportify-basics/ui/src/index.ts"],
+      "@sportify/shared/util-env": ["libs/shared/util-env/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

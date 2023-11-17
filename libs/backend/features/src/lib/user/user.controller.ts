@@ -4,7 +4,7 @@ import { Get, Param, Post, Body } from '@nestjs/common';
 import { IUser } from '@sportify-nx/shared/api';
 import { CreateUserDto } from '@sportify-nx/backend/dto';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
     constructor(private userService: UserService) {}
 

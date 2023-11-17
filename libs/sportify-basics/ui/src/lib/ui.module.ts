@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { NavBarComponent } from './navbar/navbar';
 import { FooterComponent } from './footer/footer';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  imports: [CommonModule], //RouterLink
+  imports: [RouterModule], //RouterLink
   declarations: [NavBarComponent, FooterComponent],
   exports: [NavBarComponent, FooterComponent]
 })
