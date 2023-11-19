@@ -1,0 +1,37 @@
+<body class="bg-gray-100">
+    <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
+        <form action="/submit-user-data" method="post"> <!-- You might need to change the action URL -->
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="text-2xl font-bold">{{ user?.name ?? 'New User' }}'s Profile</h2>
+                <button type="submit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Save</button>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
+                <input type="text" name="id" value="{{ user?.id }}" class="p-3 bg-gray-200 rounded w-full" readonly>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+                <input type="text" name="name" value="{{ user?.name }}" class="p-3 bg-gray-200 rounded w-full">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input type="email" name="email" value="{{ user?.email }}" class="p-3 bg-gray-200 rounded w-full">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Gender</label>
+                <select name="gender" class="p-3 bg-gray-200 rounded w-full">
+                    <option value="male" [selected]="user?.male">Male</option>
+                    <option value="female" [selected]="!user?.male">Female</option>
+                </select>                
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Roles</label>
+                <input type="text" name="roles" value="{{ user?.roles }}" class="p-3 bg-gray-200 rounded w-full">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Birthdate</label>
+                <input type="date" name="birthdate" value="{{ user?.birthdate | date:'yyyy-MM-dd' }}" class="p-3 bg-gray-200 rounded w-full">
+            </div>
+        </form>
+    </div>
+</body>

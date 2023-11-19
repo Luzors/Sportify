@@ -6,17 +6,26 @@ import { UserService } from './user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HomefillerComponent } from './homefiller/homefiller.component';
 import { AboutComponent } from './about/about.component';
-import { RouterLink} from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
+import { UiModule } from '@sportify-nx/ui';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, RouterLink],
+  imports: [CommonModule, HttpClientModule, RouterLink, UiModule],
   declarations: [
     UserListComponent,
     UserDetailComponent,
     HomefillerComponent,
-    AboutComponent
+    AboutComponent,
+    UserEditComponent,
   ],
   providers: [UserService],
-  exports: [UserListComponent, UserDetailComponent, HomefillerComponent, AboutComponent]
+  exports: [
+    UserListComponent,
+    UserDetailComponent,
+    HomefillerComponent,
+    AboutComponent,
+    UserEditComponent
+  ],
 })
 export class FeaturesModule {}
