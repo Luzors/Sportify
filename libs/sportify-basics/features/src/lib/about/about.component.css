@@ -1,0 +1,49 @@
+/* Algemene typografie en layout */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    color: #444;
+    font-size: 1.8em;
+    margin-bottom: 0.5em;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 1em;
+}
+
+/* Specifieke styling voor de div-elementen */
+div {
+    margin-bottom: 20px;
+}
+
+/* Specifieke klassen styling */
+.relative {
+    position: relative;
+}
+
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+/* Responsieve media queries */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    p {
+        font-size: 0.9em;
+    }
+}

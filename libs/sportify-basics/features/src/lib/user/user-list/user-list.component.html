@@ -12,7 +12,16 @@
                     Email
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Roles
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Birthdate
+                </th>
+                <th scope="col" class="px-6 py-3">
                     View
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Delete
                 </th>
             </tr>
         </thead>
@@ -28,7 +37,17 @@
                     {{user.email}}
                 </td>
                 <td class="px-6 py-4">
+                    {{user.roles}}
+                </td>
+                <td class="px-6 py-4">
+                    {{ user.birthdate | date }}
+                </td>
+                
+                <td class="px-6 py-4">
                     <a routerLink="/users/{{user?.id}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                </td>
+                <td class="px-6 py-4">
+                    <a routerLink="/users" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                 </td>
             </tr>
         </tbody>

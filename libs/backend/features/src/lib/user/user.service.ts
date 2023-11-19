@@ -24,6 +24,30 @@ export class UserService {
             male: true,
             roles: 'user',
             birthdate: new Date(2003, 7, 28)
+        }, {
+            id: `2`,
+            name: 'Nikki',
+            email: 'N.Stam@gmail.com',
+            password: 'password',
+            male: false,
+            roles: 'admin',
+            birthdate: new Date(2003, 7, 28)
+        }, {
+            id: `3`,
+            name: 'John',
+            email: 'J.put@gmail.com',
+            password: 'password',
+            male: true,
+            roles: 'user',
+            birthdate: new Date(2003, 7, 28)
+        }, {
+            id: `4`,
+            name: 'Jan',
+            email: 'JandeMan@gmail.com',
+            password: 'password',
+            male: true,
+            roles: 'user',
+            birthdate: new Date(2003, 7, 28)
         }
     ]);
 

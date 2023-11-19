@@ -1,1 +1,116 @@
-<p>about works!</p>
+
+<h1>About sportify</h1>
+<p>Sportify is een app die sporters samen brengt. De app is gemaakt voor een schoolproject met angular. De app laat sport-verenigingen evenementen aanmaken. Deze evenementen worden zichtbaar voor de juiste gebruikers. Deze gebruikers kunnen zich dan aanmelden, maar ook kunnen ze vervoer regelen naar het evenement.</p>
+<p>Hieronder staan de functional requirements op een rij:</p>
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Functional requirements
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Als gebruiker wil ik een systeem met drie entiteiten en een user-entiteit raadplegen, zodat ik de informatie vind die ik zoek.
+                </th>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Als gebruiker kan ik navigeren door het systeem, zodat ik alle informatie via de UI kan bereiken.
+                </th>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Als gebruiker kan ik overzichtsschermen van alle entiteiten raadplegen, zodat ik alle data in kan zien en door kan klikken naar detailinformatie.
+                </th>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Als gebruiker wil ik CRUD functionaliteit op alle entiteiten, zodat ik alle informatie kan raadplegen, en mijn eigen informatie kan wijzigen of verwijderen.
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>Hieronder staan de non-functional requirements op een rij:</p>
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Non-functional requirements
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Goed
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    CI/CD pipeline
+                </th>
+                <td class="px-6 py-4">
+                    Uitgebreid versiebeheer met feature branching toegepast.
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Security en authenticatie
+                </th>
+                <td class="px-6 py-4">
+                    Afhankelijk van de rol heeft een user toegang tot functionaliteit.
+                </td>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Useability
+                </th>
+                <td class="px-6 py-4">
+                    Opvallend gebruiksvriendelijk systeem. Eigen vormgeving passend bij casus.
+                </td>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Tests
+                </th>
+                <td class="px-6 py-4">
+                    Naast unittesten ook end-to-end tests voor 2 scenario's (anders dan authenticatie)
+                </td>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Documentatie
+                </th>
+                <td class="px-6 py-4">
+                    Requirements en/of userstories zijn helder en volledig gedocumenteerd.
+                </td>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Data integrity (validatie van data in UI)
+                </th>
+                <td class="px-6 py-4">
+                    Uitgebreide validatie van alle inputvelden via Reactive Form Validation.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h1>ERD</h1>
+    <p>Hieronder staat het ERD weergeven:</p>
+    <img src="assets/ERD.png" alt="ERD Sportify-app (failed load)">
+    <p>In het ERD zijn verschillende entiteiten en hun relaties te zien. Om het duidelijk te maken is hieronder nog een uitleg van de casus met de entiteiten en attributen.
+    </p>
+    <p>Via de app kunnen sportverenigingen('Associations') evenementen ('Events') organiseren. Elk event heeft essentiële details zoals een uniek ID, naam, datum, locatie, capaciteit en OpenTo. Het ‘OpenTo’ attribuut bevat hoe openbaar een evenement is, zo kan een sportvereniging evenementen limiteren tot een doelgroep(bv. sport en leeftijdscategorie).
+        Een sportvereniging bestaat uit een Id, Name en Sport. Alle sportverenigingen hebben 1 of meer beheerders(‘Admin’). Een beheerder heeft een Id, Name, Email en Password.
+        Gebruikers ('Users') bestaande uit: Id, Name, Email, Password, Male, Rollen en Birthdate. Gebruikers van de app kunnen lid worden van sportverenigingen. De relatie 'Is member of' bevat de unieke lidmaatschaps-ID en de datum waarop het lidmaatschap is begonnen, wat helpt bij het beheer van het lidmaatschap en deelname aan evenementen.
+        Wanneer een evenement door een associatie wordt aangemaakt, wordt dit weergegeven in de app waar gebruikers zich voor kunnen inschrijven. De 'User Attends' relatie, is een associatieve entiteit tussen 'User' en 'Event', beheert de inschrijvingen voor elk evenement. Dit zorgt ervoor dat de app bijhoudt welke gebruikers aanwezig zullen zijn bij welke evenementen.
+        Daarnaast kan je met sportify als gebruiker vervoer naar evenementen regelen. Een gebruiker kan vervoer waar de gebruiker toegang tot heeft registreren. De entiteit vervoer ('Transport') bevat details zoals het nummerplaat, type voertuig en het aantal zitplaatsen, wat cruciaal is voor het plannen van carpool-opties.
+        </p>
+</div>
+

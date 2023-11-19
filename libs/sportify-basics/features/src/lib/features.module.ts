@@ -9,9 +9,10 @@ import { AboutComponent } from './about/about.component';
 import { RouterLink } from '@angular/router';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UiModule } from '@sportify-nx/ui';
+import { CommonModule2 } from '@sportify-nx/sportify-basics/common';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, RouterLink, UiModule],
+  imports: [CommonModule, HttpClientModule, RouterLink, UiModule, CommonModule2],
   declarations: [
     UserListComponent,
     UserDetailComponent,

@@ -22,15 +22,21 @@ export const appRoutes: Route[] = [
         component: UserListComponent,
     },
     {
-        path: 'users/:id',
+        path: 'users/add',
         pathMatch: 'full',
-        component: UserDetailComponent
+        component: UserEditComponent
     }
     ,
     {
         path: 'users/edit/:id',
         pathMatch: 'full',
         component: UserEditComponent
+    }
+    ,
+    {
+        path: 'users/:id',
+        pathMatch: 'full',
+        component: UserDetailComponent
     }
 
 ];

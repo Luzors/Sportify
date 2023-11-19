@@ -7,7 +7,7 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
-                <input type="text" name="id" value="{{ user?.id }}" class="p-3 bg-gray-200 rounded w-full" readonly>
+                <input type="text" name="id" value="{{ user?.id ?? 'Automatic' }}" class="p-3 bg-gray-200 rounded w-full" readonly>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
