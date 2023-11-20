@@ -2,9 +2,9 @@
 body {
     font-family: 'Arial', sans-serif;
     color: #333;
-    background-color: #f4f4f4;
     padding: 20px;
-    margin: 0;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 h1 {

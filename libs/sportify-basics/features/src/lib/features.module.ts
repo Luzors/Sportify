@@ -10,15 +10,23 @@ import { RouterLink } from '@angular/router';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UiModule } from '@sportify-nx/ui';
 import { CommonModule2 } from '@sportify-nx/sportify-basics/common';
+import { EventChardsComponent } from './event/event-chards/event-chards.component';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, RouterLink, UiModule, CommonModule2],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    RouterLink,
+    UiModule,
+    CommonModule2,
+  ],
   declarations: [
     UserListComponent,
     UserDetailComponent,
     HomefillerComponent,
     AboutComponent,
     UserEditComponent,
+    EventChardsComponent,
   ],
   providers: [UserService],
   exports: [
@@ -26,7 +34,8 @@ import { CommonModule2 } from '@sportify-nx/sportify-basics/common';
     UserDetailComponent,
     HomefillerComponent,
     AboutComponent,
-    UserEditComponent
+    UserEditComponent,
+    EventChardsComponent
   ],
 })
 export class FeaturesModule {}

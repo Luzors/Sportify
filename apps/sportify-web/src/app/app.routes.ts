@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { AboutComponent, HomefillerComponent, UserDetailComponent, UserEditComponent, UserListComponent } from '@sportify-nx/sportify-basics/features';
+import { AboutComponent, EventChardsComponent, HomefillerComponent, UserDetailComponent, UserEditComponent, UserListComponent } from '@sportify-nx/sportify-basics/features';
 import { AddUserButtonComponent } from '@sportify-nx/ui';
 
 
@@ -37,6 +37,10 @@ export const appRoutes: Route[] = [
         path: 'users/:id',
         pathMatch: 'full',
         component: UserDetailComponent
+    },    {
+        path: 'events',
+        pathMatch: 'full',
+        component: EventChardsComponent
     }
 
 ];
