@@ -9,7 +9,7 @@ import {environment} from '@sportify/shared/util-env'
 @Module({
   imports: [
     BackendFeaturesUserModule, BackendFeaturesAssociationModule,
-     MongooseModule.forRoot(environment.databaseUrl)],
+     MongooseModule.forRoot("mongodb+srv://jorn:sportifydbpassword1@sportifyatlas.jgwoewq.mongodb.net/?retryWrites=true&w=majority")],
   controllers: [AppController],
   providers: [AppService],
 })

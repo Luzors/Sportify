@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsBoolean, IsInt, IsMongoId, IsString, isDate } from 'class-validator';
 import { HydratedDocument } from 'mongoose';
-import {IsBoolean, IsInt, IsMongoId, IsString, isDate} from 'class-validator';
 import { Association } from '../../association/schemas/association.schema';
 
 export type UserDocument = HydratedDocument<User>;
