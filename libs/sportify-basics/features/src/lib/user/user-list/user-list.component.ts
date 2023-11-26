@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../user.service';
 import { IUser } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sportify-nx-user-list',
@@ -12,7 +13,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   users: IUser[] | null = null;
   subscription: Subscription | undefined = undefined;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router:Router) {}
 
   ngOnInit(): void {
       this.subscription = this.userService.list().subscribe((results) => {
@@ -24,4 +25,16 @@ export class UserListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
       if (this.subscription) this.subscription.unsubscribe();
   }
+  delete(userId:string | undefined):void{
+      this.userService.delete(userId).subscribe(
+        () => {
+          console.log('User deleted successfully:');
+          window.location.reload();
+        },
+        (error) => {
+          console.error('Error updating user:', error);
+          // Handle error scenario
+        }
+      );
+    }
 }

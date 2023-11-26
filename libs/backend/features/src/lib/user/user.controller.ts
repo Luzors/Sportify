@@ -1,4 +1,4 @@
-import { Controller, NotFoundException, Put } from '@nestjs/common';
+import { Controller, Delete, NotFoundException, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IUser } from '@sportify-nx/shared/api';
@@ -12,6 +12,11 @@ export class UserController {
   @Get('')
   getAll(): Promise<User[]> {
     return this.userService.findAll();
+  }
+
+  @Delete(':id')
+  delete(@Param('id') _id: string): Promise<void> {
+    return this.userService.delete(_id);
   }
 
   @Get(':id')

@@ -48,7 +48,7 @@
                     <a routerLink="/users/{{user?._id}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
                 </td>
                 <td class="px-6 py-4">
-                    <a routerLink="/users" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
+                    <a (click)="delete(user._id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                 </td>
             </tr>
         </tbody>

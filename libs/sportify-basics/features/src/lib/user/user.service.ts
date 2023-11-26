@@ -83,6 +83,18 @@ export class UserService {
         catchError(this.handleError)
       );
   }
+  public delete(_id: string | undefined, options?: any): Observable<IUser> {
+    return this.http
+      .delete<ApiResponse<IUser[]>>(this.endpoint + '/' + _id, {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        tap(console.log),
+        map((response: any) => response.results as IUser),
+        catchError(this.handleError)
+      );
+  }
 
   /**
    * Handle errors.
