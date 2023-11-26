@@ -1,91 +1,40 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IUser } from '@sportify-nx/shared/api';
-import { BehaviorSubject } from 'rxjs';
-import { Logger } from '@nestjs/common';
+import { User } from './schemas/user.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateUserDto } from '@sportify-nx/backend/dto';
 
 @Injectable()
 export class UserService {
-    TAG = 'UsersService';
-
-    private users$ = new BehaviorSubject<IUser[]>([
-        {
-            id: '0',
-            name: 'Kelvin',
-            email: 'k.lai@gmail.com',
-            password: 'password',
-            male: true,
-            roles: 'user',
-            birthdate: new Date(2002, 4, 16)
-        }, {
-            id: `1`,
-            name: 'Milko',
-            email: 'M.put@gmail.com',
-            password: 'password',
-            male: true,
-            roles: 'user',
-            birthdate: new Date(2003, 7, 28)
-        }, {
-            id: `2`,
-            name: 'Nikki',
-            email: 'N.Stam@gmail.com',
-            password: 'password',
-            male: false,
-            roles: 'admin',
-            birthdate: new Date(2003, 7, 28)
-        }, {
-            id: `3`,
-            name: 'John',
-            email: 'J.put@gmail.com',
-            password: 'password',
-            male: true,
-            roles: 'user',
-            birthdate: new Date(2003, 7, 28)
-        }, {
-            id: `4`,
-            name: 'Jan',
-            email: 'JandeMan@gmail.com',
-            password: 'password',
-            male: true,
-            roles: 'user',
-            birthdate: new Date(2003, 7, 28)
-        }
-    ]);
-
-    getAll(): IUser[] {
-        Logger.log('getAll', this.TAG);
-        return this.users$.value;
+    constructor(@InjectModel(User.name) private readonly userModel: Model<User>){
+        this.seedDb();
+    }
+    async seedDb(){
+        const currentUsers = await this.findAll();
+            if (currentUsers.length > 0) {
+              return;
+            }
+            const seedUser1 = new User();
+            seedUser1.name = 'Wan Uzehr';
+            seedUser1.email = 'wan.uzehr@gmail.com';
+            seedUser1.password = 'password';
+            seedUser1.male = true;
+            seedUser1.roles = 'user,admin';
+            seedUser1.birthdate = new Date(2002, 4, 16);
+            const newSeedUser1 = new this.userModel(seedUser1);
+            await newSeedUser1.save();
     }
 
-    getOne(id: string): IUser {
-        Logger.log(`getOne(${id})`, this.TAG);
-        const user = this.users$.value.find((td) => td.id === id);
-        if (!user) {
-            throw new NotFoundException(`Users could not be found!`);
-        }
-        return user;
-    }
-
-    /**
-     * Update the arg signature to match the DTO, but keep the
-     * return signature - we still want to respond with the complete
-     * object
-     */
-    create(user: Pick<IUser, 'id' | 'email'>): IUser {
-        Logger.log('create', this.TAG);
-        const current = this.users$.value;
-        // Use the incoming data, a randomized ID, and a default value of `false` to create the new to-do
-        const newUsers: IUser = {
-            ...user,
-            id: `user-${Math.floor(Math.random() * 10000)}`,
-            name: '',
-            email: '',
-            password: '',
-            male: true,
-            roles: '',
-            birthdate: new Date()
-            
-        };
-        this.users$.next([...current, newUsers]);
-        return newUsers;
-    }
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const createdUser = new this.userModel(createUserDto);
+        return createdUser.save();
+      }
+    
+      async findAll(): Promise<User[]> {
+        return this.userModel.find().exec();
+      }
+      async findById(_id: string): Promise<User | null> {
+        return this.userModel.findById(_id).exec();
+      }
+      
 }

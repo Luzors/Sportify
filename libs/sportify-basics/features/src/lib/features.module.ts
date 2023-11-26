@@ -11,6 +11,7 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UiModule } from '@sportify-nx/ui';
 import { CommonModule2 } from '@sportify-nx/sportify-basics/common';
 import { EventChardsComponent } from './event/event-chards/event-chards.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { EventChardsComponent } from './event/event-chards/event-chards.componen
     RouterLink,
     UiModule,
     CommonModule2,
+    FormsModule
   ],
   declarations: [
     UserListComponent,

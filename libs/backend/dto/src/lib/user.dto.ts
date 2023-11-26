@@ -18,7 +18,7 @@ import {
 export class CreateUserDto implements ICreateUser {
     @IsString()
     @IsNotEmpty()
-    id!: string;
+    _id!: string;
 
     @IsString()
     @IsNotEmpty()
@@ -36,6 +36,10 @@ export class CreateUserDto implements ICreateUser {
     @IsNotEmpty()
     male!: boolean;
 
+    @IsString()
+    @IsNotEmpty()
+    roles!: string;
+
     @IsDate()
     @IsNotEmpty()
     birthdate!: Date;
@@ -44,7 +48,7 @@ export class CreateUserDto implements ICreateUser {
 export class UpsertUserDto implements IUpsertUser {
     @IsString()
     @IsNotEmpty()
-    id!: string;
+    _id!: string;
 
     @IsString()
     @IsNotEmpty()

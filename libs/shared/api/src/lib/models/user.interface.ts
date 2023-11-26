@@ -1,4 +1,4 @@
-import { Id } from './id.type';
+import { _Id } from './id.type';
 
 // export enum MealSort {
 //     Breakfast = 'Breakfast',
@@ -9,7 +9,7 @@ import { Id } from './id.type';
 
 
 export interface IUser {
-    id: Id;
+    _id?: _Id;
     name: string;
     email: string;
     password: string;
@@ -20,8 +20,8 @@ export interface IUser {
 
 export type ICreateUser = Pick<
     IUser,
-    'id'| 'name' | 'email' | 'password' | 'male' | 'birthdate'
+    '_id'| 'name' | 'email' | 'password' | 'male' | 'roles' | 'birthdate'
 >;
-export type IUpdateUser = Partial<Omit<IUser, 'id'>>;
+export type IUpdateUser = Partial<Omit<IUser, '_id'>>;
 export type IUpsertUser = IUser;
 

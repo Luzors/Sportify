@@ -2,11 +2,11 @@
     <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
         <div class="flex justify-between items-center mb-5">
             <h2 class="text-2xl font-bold">{{ user?.name }}'s Profile</h2>
-            <a routerLink="/users/edit/{{ user?.id }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            <a routerLink="/users/edit/{{ user?._id }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
-            <p class="p-3 bg-gray-200 rounded">{{ user?.id }}</p>
+            <p class="p-3 bg-gray-200 rounded">{{ user?._id }}</p>
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>

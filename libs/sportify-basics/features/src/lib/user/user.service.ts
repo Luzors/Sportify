@@ -47,17 +47,29 @@ export class UserService {
      * Get a single item from the service.
      *
      */
-    public read(id: string | null, options?: any): Observable<IUser> {
-        // ... existing code ...
+    public read(_id: string | null, options?: any): Observable<IUser> {
     
         return this.http
-            .get<ApiResponse<IUser[]>>(this.endpoint + '/' + id, {
+            .get<ApiResponse<IUser[]>>(this.endpoint + '/' + _id, {
                 ...options,
                 ...httpOptions,
             })
             .pipe(
                 tap(console.log),
                 map((response: any) => response.results as IUser), 
+                catchError(this.handleError)
+            );
+    }
+    public create(user : IUser, options?: any) {
+    
+        return this.http
+            .post<ApiResponse<IUser>>(this.endpoint, user, {
+                ...options,
+                ...httpOptions,
+            })
+            .pipe(
+                tap(console.log),
+                map((response: any) => response.info), 
                 catchError(this.handleError)
             );
     }

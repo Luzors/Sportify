@@ -10,18 +10,39 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./user-edit.component.css'],
 })
 export class UserEditComponent implements OnInit, OnDestroy{
-  user: IUser | null = null;
+  user: IUser = {
+    name: "",
+    email: "",
+    password: "",
+    male: true,
+    roles: "",
+    birthdate: new Date(2000, 4, 16)
+  };
   subscription: Subscription | undefined;
   
-  constructor(private userService: UserService, private route: ActivatedRoute) {}
+  constructor(private userService: UserService, private route: ActivatedRoute) { }
   
   ngOnInit(): void {
     this.subscription = this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.subscription = this.userService.read(id).subscribe(
+      const _id = params.get('id');
+  
+      this.user = {
+        name: "New User",
+        email: "",
+        password: "",
+        male: true,
+        roles: "user",
+        birthdate: new Date(2000, 4, 16)
+      };
+  
+      if (_id) {
+        this.subscription = this.userService.read(_id).subscribe(
           (user: IUser) => {
-            this.user = user;
+            if (user) {
+              this.user = user;
+            } else {
+              console.error('User not found');
+            }
           },
           error => {
             console.error('Error fetching user:', error);
@@ -31,10 +52,26 @@ export class UserEditComponent implements OnInit, OnDestroy{
       }
     });
   }
+  
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+  createUser(): void {
+    
+    if (this.user) {
+      this.userService.create(this.user).subscribe(
+        (createdUser: IUser) => {
+          console.log('User created successfully:', createdUser);
+
+        },
+        (error) => {
+          console.error('Error creating user:', error);
+          // Handle error scenario
+        }
+      );
     }
   }
 }
