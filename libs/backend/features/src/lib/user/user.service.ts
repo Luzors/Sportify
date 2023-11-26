@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from '@sportify-nx/backend/dto';
+import { CreateUserDto, UpdateUserDto } from '@sportify-nx/backend/dto';
+
 
 @Injectable()
 export class UserService {
@@ -29,6 +30,21 @@ export class UserService {
         const createdUser = new this.userModel(createUserDto);
         return createdUser.save();
       }
+
+      async update(userId: string, updateUserDto: UpdateUserDto): Promise<User> {
+        const updatedUser = await this.userModel.findOneAndUpdate(
+          { _id: userId },
+          updateUserDto,
+          { new: true }
+        );
+    
+        if (!updatedUser) {
+          throw new NotFoundException('User not found');
+        }
+    
+        return updatedUser;
+      }
+
     
       async findAll(): Promise<User[]> {
         return this.userModel.find().exec();

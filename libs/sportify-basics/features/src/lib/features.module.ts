@@ -6,7 +6,7 @@ import { UserService } from './user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HomefillerComponent } from './homefiller/homefiller.component';
 import { AboutComponent } from './about/about.component';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UiModule } from '@sportify-nx/ui';
 import { CommonModule2 } from '@sportify-nx/sportify-basics/common';
