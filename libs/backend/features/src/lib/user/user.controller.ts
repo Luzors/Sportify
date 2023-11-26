@@ -1,9 +1,7 @@
-import { Controller, Delete, NotFoundException, Put } from '@nestjs/common';
-import { UserService } from './user.service';
-import { Get, Param, Post, Body } from '@nestjs/common';
-import { IUser } from '@sportify-nx/shared/api';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from '@sportify-nx/backend/dto';
 import { User } from './schemas/user.schema';
+import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {

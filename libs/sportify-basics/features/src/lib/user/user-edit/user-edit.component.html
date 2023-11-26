@@ -54,14 +54,15 @@
             </select>
           </div>
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Roles</label>
-            <input
+            <label class="block text-gray-700 text-sm font-bold mb-2">Association</label>
+            <select
               type="text"
-              name="roles"
-              [(ngModel)]="user.roles"
+              name="association"
+              [(ngModel)]="user.association"
               class="p-3 bg-gray-200 rounded w-full"
-              readonly
-            />
+            >
+            <option *ngFor="let association of associations" [value]="association._id">{{ association.name }}</option>
+            </select>
           </div>
           <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2"

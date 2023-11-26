@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import {IsBoolean, IsInt, IsMongoId, IsString, isDate} from 'class-validator';
+import { Association } from '../../association/schemas/association.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -34,6 +35,9 @@ export class User {
 
   @Prop()
   birthdate!: Date;
+
+  @Prop({type: String, ref: 'Association'})
+  association!: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

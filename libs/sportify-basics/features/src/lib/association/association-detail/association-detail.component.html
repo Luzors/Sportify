@@ -1,0 +1,20 @@
+<body class="bg-gray-100">
+    <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
+        <div class="flex justify-between items-center mb-5">
+            <h2 class="text-2xl font-bold">{{ association?.name }}'s info</h2>
+            <a routerLink="/associations/edit/{{ association?._id }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
+            <p class="p-3 bg-gray-200 rounded">{{ association?._id }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+            <p class="p-3 bg-gray-200 rounded">{{ association?.name }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Sport</label>
+            <p class="p-3 bg-gray-200 rounded">{{ association?.sport }}</p>
+        </div>
+    </div>
+</body>

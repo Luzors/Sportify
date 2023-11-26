@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IUser } from '@sportify-nx/shared/api';
+import { IAssociation, IUser } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Param } from '@nestjs/common';
+import { AssociationService } from '../../association/association.service';
 
 @Component({
   selector: 'sportify-nx-user-edit',
@@ -17,14 +18,21 @@ export class UserEditComponent implements OnInit, OnDestroy{
     password: "",
     male: true,
     roles: "",
-    birthdate: new Date(2000, 4, 16)
+    birthdate: new Date(2000, 4, 16),
+    association: null,
   };
   subscription: Subscription | undefined;
   _paramId: string | null = null;
+  associations: IAssociation[] | null = null;
   
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private associationService: AssociationService, private userService: UserService, private route: ActivatedRoute, private router: Router) { }
   
   ngOnInit(): void {
+    this.subscription = this.associationService.list().subscribe((results) => {
+      console.log(`results: ${results}`);
+      this.associations = results;
+  });
+  
     this.subscription = this.route.paramMap.subscribe(params => {
       const _id = params.get('id');
       this._paramId = _id;
@@ -34,8 +42,10 @@ export class UserEditComponent implements OnInit, OnDestroy{
         password: "",
         male: true,
         roles: "user",
-        birthdate: new Date(2000, 4, 16)
+        birthdate: new Date(2000, 4, 16),
+        association: null,
       };
+
   
       if (_id) {
         this.subscription = this.userService.read(_id).subscribe(

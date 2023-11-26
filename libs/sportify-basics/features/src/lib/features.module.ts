@@ -11,7 +11,11 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UiModule } from '@sportify-nx/ui';
 import { CommonModule2 } from '@sportify-nx/sportify-basics/common';
 import { EventChardsComponent } from './event/event-chards/event-chards.component';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { AssociationListComponent } from './association/association-list/association-list.component';
+import { AssociationDetailComponent } from './association/association-detail/association-detail.component';
+import { AssociationEditComponent } from './association/association-edit/association-edit.component';
+import { AssociationService } from './association/association.service';
 
 @NgModule({
   imports: [
@@ -20,7 +24,7 @@ import {FormsModule} from '@angular/forms';
     RouterLink,
     UiModule,
     CommonModule2,
-    FormsModule
+    FormsModule,
   ],
   declarations: [
     UserListComponent,
@@ -29,15 +33,21 @@ import {FormsModule} from '@angular/forms';
     AboutComponent,
     UserEditComponent,
     EventChardsComponent,
+    AssociationListComponent,
+    AssociationDetailComponent,
+    AssociationEditComponent,
   ],
-  providers: [UserService],
+  providers: [UserService, AssociationService],
   exports: [
     UserListComponent,
     UserDetailComponent,
     HomefillerComponent,
     AboutComponent,
     UserEditComponent,
-    EventChardsComponent
+    EventChardsComponent,
+    AssociationListComponent,
+    AssociationDetailComponent,
+    AssociationEditComponent,
   ],
 })
 export class FeaturesModule {}

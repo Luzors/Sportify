@@ -1,0 +1,49 @@
+<body class="bg-gray-100">
+    <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
+  <form (ngSubmit)="updateOrCreateAssociation()" #associationForm="ngForm">
+          <div class="flex justify-between items-center mb-5">
+            <h2 class="text-2xl font-bold">
+              {{ association.name }}'s info
+            </h2>
+            <button
+              type="submit"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >
+              Save
+            </button>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
+            <input
+              type="text"
+              name="id"
+              [(ngModel)]="association._id"
+              placeholder="Automatic"
+              class="p-3 bg-gray-200 rounded w-full"
+              readonly
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+            <input
+              type="text"
+              name="name"
+              [(ngModel)]="association.name"
+              class="p-3 bg-gray-200 rounded w-full"
+              autofocus
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Sport</label>
+            <select
+              type="sport"
+              name="sport"
+              [(ngModel)]="association.sport"
+              class="p-3 bg-gray-200 rounded w-full"
+            >
+            <option *ngFor="let sport of sports" [value]="sport">{{ sport }}</option>
+            </select>
+          </div>
+        </form>
+    </div>
+  </body>
