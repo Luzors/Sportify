@@ -35,7 +35,7 @@
           "buildTarget": "data-api:build:development"
         },
         "production": {
-          "buildTarget": "data-api:build:production"
+          "buildTarget": "data-api:build:production"          
         }
       }
     },
