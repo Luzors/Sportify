@@ -5,6 +5,8 @@ export * from './lib/user/user-list/user-list.component';
 export * from './lib/user/user-detail/user-detail.component';
 export * from './lib/user/user-edit/user-edit.component';
 export * from './lib/event/event-chards/event-chards.component';
+export * from './lib/event/event-detail/event-detail.component';
+export * from './lib/event/add-event/add-event.component';
 export * from './lib/association/association-list/association-list.component';
 export * from './lib/association/association-detail/association-detail.component';
 export * from './lib/association/association-edit/association-edit.component';

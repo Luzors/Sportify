@@ -2,10 +2,12 @@ import { Route } from '@angular/router';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   AboutComponent,
+  AddEventComponent,
   AssociationDetailComponent,
   AssociationEditComponent,
   AssociationListComponent,
   EventChardsComponent,
+  EventDetailComponent,
   HomefillerComponent,
   LoginComponent,
   RegisterComponent,
@@ -49,6 +51,16 @@ export const appRoutes: Route[] = [
     path: 'events',
     pathMatch: 'full',
     component: EventChardsComponent,
+  },
+  {
+    path: 'events',
+    pathMatch: 'full',
+    component: EventDetailComponent,
+  },
+  {
+    path: 'events',
+    pathMatch: 'full',
+    component: AddEventComponent,
   },
   {
     path: 'associations',
