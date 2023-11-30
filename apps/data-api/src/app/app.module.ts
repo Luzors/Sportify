@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import {BackendFeaturesAssociationModule, BackendFeaturesUserModule} from '@sportify-nx/backend/features'
+import {BackendFeaturesAssociationModule, BackendFeaturesUserModule, BackendFeaturesAuthModule} from '@sportify-nx/backend/features'
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,20 +8,8 @@ import {ConfigModule, ConfigService} from '@nestjs/config'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}),
-    BackendFeaturesUserModule, BackendFeaturesAssociationModule,
-
-    //local
-    //  MongooseModule.forRoot('mongodb://127.0.0.1:27017/sportifymdb')],
-    MongooseModule.forRootAsync(
-      {
-        imports: [ConfigModule],
-        inject: [ConfigService],
-        useFactory: (configService: ConfigService) => ({
-          uri: configService.get<string>('MONGO_CONNECTION_STRING')
-        })
-      }
-    )],
+    BackendFeaturesUserModule, BackendFeaturesAssociationModule, BackendFeaturesAuthModule,
+     MongooseModule.forRoot("mongodb+srv://jorn:sportifydbpassword1@sportifyatlas.jgwoewq.mongodb.net/?retryWrites=true&w=majority")],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -26,4 +26,5 @@ export type ICreateUser = Pick<
 >;
 export type IUpdateUser = Partial<Omit<IUser, '_id'>>;
 export type IUpsertUser = IUser;
+export type ILoginUser = Pick<IUser, 'email' | 'password'>;
 
