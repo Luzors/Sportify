@@ -8,4 +8,7 @@ export * from './lib/event/event-chards/event-chards.component';
 export * from './lib/association/association-list/association-list.component';
 export * from './lib/association/association-detail/association-detail.component';
 export * from './lib/association/association-edit/association-edit.component';
+export * from './lib/auth/login/login.component';
+export * from './lib/auth/register/register.component';
+export * from './lib/auth/auth.service';
 

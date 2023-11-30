@@ -3,7 +3,6 @@ import { IAssociation, IUser } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Param } from '@nestjs/common';
 import { AssociationService } from '../../association/association.service';
 
 @Component({
@@ -39,7 +38,7 @@ export class UserEditComponent implements OnInit, OnDestroy{
       this.user = {
         name: "New User",
         email: "",
-        password: "",
+        password: "password",
         male: true,
         roles: "user",
         birthdate: new Date(2000, 4, 16),

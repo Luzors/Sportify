@@ -1,0 +1,77 @@
+/* FILEPATH: /c:/SchoolProjects/j2/sportify-nx/libs/sportify-basics/features/src/lib/auth/login/login.component.css */
+
+body {
+    background-color: #f7fafc;
+}
+
+.container {
+    margin: auto;
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 320px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+}
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+a {
+    font-weight: medium;
+    color: #3182ce;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.block {
+    display: block;
+}
+
+.text-gray-700 {
+    color: #4a5568;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.p-3 {
+    padding: 0.75rem;
+}
+
+.bg-gray-200 {
+    background-color: #edf2f7;
+}
+
+.rounded {
+    border-radius: 0.25rem;
+}
