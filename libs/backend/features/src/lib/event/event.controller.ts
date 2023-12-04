@@ -3,7 +3,7 @@ import { EventService } from './event.service';
 import { CreateEventDto, UpdateEventDto } from '@sportify-nx/backend/dto';
 import { Event } from './schemas/event.schema';
 
-@Controller('event')
+@Controller('events')
 export class EventController {
     constructor(private eventService: EventService) {}
 

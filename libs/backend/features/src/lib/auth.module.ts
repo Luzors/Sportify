@@ -17,7 +17,7 @@ import { EventController } from './event/event.controller';
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
-  controllers: [AuthController, EventController],
+  controllers: [AuthController],
   providers: [AuthService, UserService],
   exports: [
     AuthService,

@@ -53,14 +53,14 @@ export const appRoutes: Route[] = [
     component: EventChardsComponent,
   },
   {
-    path: 'events',
-    pathMatch: 'full',
-    component: EventDetailComponent,
-  },
-  {
-    path: 'events',
+    path: 'events/add',
     pathMatch: 'full',
     component: AddEventComponent,
+  },
+  {
+    path: 'events/:id',
+    pathMatch: 'full',
+    component: EventDetailComponent,
   },
   {
     path: 'associations',

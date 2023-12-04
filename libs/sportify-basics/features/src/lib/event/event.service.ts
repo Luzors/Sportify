@@ -42,6 +42,22 @@ export class EventService {
         catchError(this.handleError)
       );
   }
+  listOfNonExpired(options?: any): Observable<IEvent[] | null> {
+    console.log(`list ${this.endpoint}`);
+
+    return this.http
+      .get<ApiResponse<IEvent[]>>(this.endpoint, {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        map((response: any) => {
+          const currentDate = new Date();
+          return response.results.filter((event: IEvent) => new Date(event.date) > currentDate);
+        }),
+        catchError(this.handleError)
+      );
+  }
 
   /**
    * Get a single item from the service.

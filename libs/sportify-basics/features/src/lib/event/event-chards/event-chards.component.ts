@@ -16,7 +16,7 @@ export class EventChardsComponent implements OnInit, OnDestroy {
   constructor(private eventService:EventService, private router:Router) {}
 
   ngOnInit(): void {
-    this.subscription = this.eventService.list().subscribe((results) => {
+    this.subscription = this.eventService.listOfNonExpired().subscribe((results) => {
         console.log(`results: ${results}`);
         this.events = results;
     });

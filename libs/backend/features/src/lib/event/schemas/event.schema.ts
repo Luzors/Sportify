@@ -21,11 +21,10 @@ export class Event {
   _id!: string;
 
   @Prop()
-    name!: string;
+  name!: string;
 
-    
   @Prop()
-  birthdate!: Date;
+  date!: Date;
 
   @Prop()
   location!: string;
@@ -33,13 +32,13 @@ export class Event {
   @Prop()
   capacity!: number;
 
-  @Prop()
+  @Prop({required: true, type: String, enum: Object.values(OpenTo)})
   openTo!: OpenTo;
 
-  @Prop({type: String, ref: 'Association'})
+  @Prop({ type: String, ref: 'Association' })
   association!: string;
 
-  @Prop([{type: String, ref: 'User'}])
+  @Prop([{ type: String, ref: 'User' }])
   users!: string[] | null;
 }
 

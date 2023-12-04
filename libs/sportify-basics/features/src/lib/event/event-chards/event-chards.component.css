@@ -1,54 +1,53 @@
 * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #f7f7f7;
-  }
-  
-  /* Flex container for centering the cards */
-  .row {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 20px; /* Space between the cards */
-    padding: 20px;
-    max-width: 1200px; /* Adjust this value as needed */
-    margin: auto;
-  }
-  
-  /* Flex items, individual columns */
-  .column {
-    flex: 0 0 calc(33.33% - 20px); /* Three columns with spacing */
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-  }
-  
-  /* Style for the cards */
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f7f7f7;
+}
+
+/* Flex container for centering the cards */
+.event-container {
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between the cards */
+  padding: 20px;
+  max-width: 1200px; /* Adjust this value as needed */
+  margin: auto;
+}
+
+/* Style for each card */
+.card {
+  flex: 0 0 calc(33.33% - 20px); /* Three cards with spacing */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 300px; /* Fixed max width for each card */
+  width: 100%; /* Make the card expand to the width of the column */
+}
+
+/* Responsive layout for smaller screens */
+@media screen and (max-width: 600px) {
   .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    text-align: center;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    max-width: 300px; /* Fixed max width for each card */
-    width: 100%; /* Make the card expand to the width of the column */
+    flex: 0 0 100%; /* Full width for small screens */
   }
-  
-  /* Responsive layout for smaller screens */
-  @media screen and (max-width: 600px) {
-    .column {
-      flex: 0 0 100%; /* Full width for small screens */
-    }
-  }
-  
+}
+
+.add-event-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
