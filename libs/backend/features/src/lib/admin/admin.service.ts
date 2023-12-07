@@ -52,5 +52,11 @@ export class AdminService {
           }
         }).exec();
       }
-      
+      async findAllByAssociation(association_id: string): Promise<Admin[]> {
+        return this.adminModel.find({
+          association: {
+            $in: association_id
+          }
+        }).exec();
+      }
 }

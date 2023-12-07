@@ -1,5 +1,6 @@
 <body class="pls">
-    <div *ngIf="myAssociation">
+    <div class="my-association" *ngIf="myAssociation">
+        <h2>Your association: {{myAssociation.name}}</h2>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -14,6 +15,9 @@
                     </th>
                     <th scope="col" class="px-6 py-3">
                         View
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        delete
                     </th>
                 </tr>
             </thead>
@@ -41,6 +45,7 @@
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <h2>Other:</h2>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -73,9 +78,9 @@
                     <td class="px-6 py-4">
                         <a routerLink="/associations/{{association?._id}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
                     </td>
-                    <td class="px-6 py-4">
+                    <!-- <td class="px-6 py-4">
                         <a (click)="delete(association._id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                    </td>
+                    </td> -->
                 </tr>
             </tbody>
         </table>

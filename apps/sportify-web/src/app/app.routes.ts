@@ -3,6 +3,8 @@ import { Route } from '@angular/router';
 import {
   AboutComponent,
   AddEventComponent,
+  AdminDetailComponent,
+  AdminEditComponent,
   AdminFromAssociationListComponent,
   AssociationDetailComponent,
   AssociationEditComponent,
@@ -98,6 +100,16 @@ export const appRoutes: Route[] = [
     path: 'associations/:id/admin',
     pathMatch: 'full',
     component: AdminFromAssociationListComponent,
+  },
+  {
+    path: 'admin/:id',
+    pathMatch: 'full',
+    component: AdminDetailComponent,
+  },
+  {
+    path: 'admin/:id/edit',
+    pathMatch: 'full',
+    component: AdminEditComponent,
   },
   {
     path: 'auth/register',

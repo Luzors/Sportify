@@ -15,3 +15,5 @@ export * from './lib/auth/login/login.component';
 export * from './lib/auth/register/register.component';
 export * from './lib/auth/auth.service';
 export * from './lib/admin/admin-from-association-list/admin-from-association-list.component';
+export * from './lib/admin/admin-detail/admin-detail.component';
+export * from './lib/admin/admin-edit/admin-edit.component';

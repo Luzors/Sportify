@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-import { ApiResponse, IAssociation } from '@sportify-nx/shared/api';
+import { ApiResponse, IAdmin, IAssociation } from '@sportify-nx/shared/api';
 import { Injectable } from '@angular/core';
 import { environment } from '@sportify/shared/util-env';
 
@@ -80,6 +80,20 @@ export class AssociationService {
       .pipe(
         tap(console.log),
         map((response: any) => response.info),
+        catchError(this.handleError)
+      );
+  }
+  public adminList(event_id: string, options?: any): Observable<IAdmin[] | null> {
+    console.log(`list ${this.endpoint}/${event_id}/admins`);
+
+    return this.http
+      .get<ApiResponse<IAssociation[]>>(this.endpoint + "/" + event_id + "/admins", {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        map((response: any) => response.results as IAdmin[]),
+        tap(console.log),
         catchError(this.handleError)
       );
   }

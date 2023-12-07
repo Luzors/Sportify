@@ -16,5 +16,7 @@
             <label class="block text-gray-700 text-sm font-bold mb-2">Sport</label>
             <p class="p-3 bg-gray-200 rounded">{{ association?.sport }}</p>
         </div>
+        <a routerLink="/associations/{{ association?._id }}/admin" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            View admins</a>
     </div>
 </body>
