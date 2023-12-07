@@ -2,7 +2,7 @@ import { HttpHeaders, HttpClient, HttpErrorResponse } from "@angular/common/http
 import { Injectable } from "@angular/core";
 import { IUser, ApiResponse, IUpdateUser } from "@sportify-nx/shared/api";
 import { environment } from "@sportify/shared/util-env";
-import { BehaviorSubject, Observable, map, catchError, tap, throwError, of, switchMap } from "rxjs";
+import { BehaviorSubject, Observable, map, catchError, tap, throwError, of, switchMap, defer } from "rxjs";
 import { Router } from '@angular/router';
 
 /**
@@ -34,21 +34,34 @@ export class AuthService {
   constructor(private readonly http: HttpClient, private router: Router) {
 
     this.getUserFromLocalStorage()
-      .pipe(
-        // switchMap is overbodig als we validateToken() niet gebruiken...
-        switchMap((user: IUser | null) => {
-          if (user) {
-            console.log('User found in local storage');
-            this.currentUser$.next(user);
-            // return this.validateToken(user);
-            return of(user);
-          } else {
-            console.log(`No current user found`);
-            return of(undefined);
+    .pipe(
+      // ...
+      switchMap((user: IUser | null) => {
+        if (user) {
+          console.log('User found in local storage');
+          this.currentUser$.next(user);
+          const item = localStorage.getItem(this.CURRENT_USER);
+          if (item !== null) {
+            const parsedItem = JSON.parse(item);
+            console.log('item::::::', parsedItem, 'JSON::::::', item);
+            const tokenString = parsedItem?.results.access_token || null;
+            console.log('token::::::', tokenString);
+            return this.validateToken(tokenString).pipe(
+              tap((response: IUser) => {
+                console.log('Token validated');
+              })
+            );
           }
-        })
-      )
-      .subscribe(() => console.log('Startup auth done'));
+          console.log('No token found returning null');
+          return of(null);
+        } else {
+          console.log(`No current user found`);
+          return of(null);
+        }
+      })
+    )
+    .subscribe(() => console.log('Startup auth done'));
+  
   }
 
   login(email: string, password: string): Observable<IUser> {
@@ -76,7 +89,7 @@ export class AuthService {
    * Als het token niet valid is loggen we de user uit.
    */
 validateToken(token: string): Observable<IUser> {
-  const url = `${environment.dataApiUrl}auth/profile`;
+  const url = `${this.endpoint}/token`;
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -143,13 +156,15 @@ validateToken(token: string): Observable<IUser> {
   }
 
   getUserFromLocalStorage(): Observable<IUser | null> {
-    const item = localStorage.getItem(this.CURRENT_USER);
-    if (item !== null) {
-      const localUser = JSON.parse(item);
-      return of(localUser);
-    } else {
-      return of(null);
-    }
+    return defer(() => {
+      const item = localStorage.getItem(this.CURRENT_USER);
+      if (item !== null) {
+        const localUser = JSON.parse(item).results.user as IUser;
+        return of(localUser);
+      } else {
+        return of(null);
+      }
+    });
   }
 
   /**

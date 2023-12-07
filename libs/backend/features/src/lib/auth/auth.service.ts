@@ -19,7 +19,22 @@ export class AuthService {
         const payload = { sub: user._id, email: user.email };
         return {
           access_token: await this.jwtService.signAsync(payload),
+          user: user,
         };
+      }
+      async validateToken(token: string) {
+        try {
+          const decoded = await this.jwtService.verifyAsync(token);
+          const user = await this.userService.findByEmail(decoded.email);
+    
+          if (!user) {
+            throw new UnauthorizedException();
+          }
+    
+          return user;
+        } catch (error) {
+          throw new UnauthorizedException();
+        }
       }
       
       

@@ -84,6 +84,8 @@ export class UsersInEventComponent implements OnInit, OnDestroy {
   }
 
   registerUser(user_id: string | undefined) {
+    console.log('userID:::', user_id);
+    console.log('currentUser id:::', this.currentUser?._id);
     if (this.event?._id && user_id) {
       this.eventService.addUserToEvent(this.event._id, user_id)
         .subscribe(
