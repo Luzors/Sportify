@@ -24,6 +24,6 @@ import { BackButtonComponent } from './back-button/back-button.component';
     BackButtonComponent,
   ],
   providers: [CheckAuthService],
-  exports: [NavbarComponent, FooterComponent],
+  exports: [NavbarComponent, FooterComponent, BackButtonComponent],
 })
 export class UiModule {}
