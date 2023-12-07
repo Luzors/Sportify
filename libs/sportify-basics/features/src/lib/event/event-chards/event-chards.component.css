@@ -16,7 +16,7 @@ body {
 /* Flex container for centering the cards */
 .event-container {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 20px; /* Space between the cards */

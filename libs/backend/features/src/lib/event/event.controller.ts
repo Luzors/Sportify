@@ -1,11 +1,26 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { EventService } from './event.service';
-import { CreateEventDto, UpdateEventDto } from '@sportify-nx/backend/dto';
+import {
+  CreateEventDto,
+  CreateUserDto,
+  UpdateEventDto,
+} from '@sportify-nx/backend/dto';
 import { Event } from './schemas/event.schema';
+import { UserService } from '../user/user.service';
+import { User } from '../user/schemas/user.schema';
 
 @Controller('events')
 export class EventController {
-    constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService) {}
 
   @Get('')
   getAll(): Promise<Event[]> {
@@ -30,10 +45,14 @@ export class EventController {
   create(@Body() data: CreateEventDto): Promise<Event> {
     return this.eventService.create(data);
   }
-  @Put(':id')
-  async updateEvent(@Param('id') eventId: string, @Body() updateEventDto: UpdateEventDto): Promise<Event> {
+
+  @Post(':id/user')
+  async addUser(
+    @Param('id') eventId: string,
+    @Body() user_id: string
+  ): Promise<Event> {
     try {
-      const updatedEvent = await this.eventService.update(eventId, updateEventDto);
+      const updatedEvent = await this.eventService.addUser(eventId, user_id);
       return updatedEvent;
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -42,4 +61,42 @@ export class EventController {
       throw error; // Rethrow other errors
     }
   }
+  @Get(':id/user')
+  getAllUsers(@Param('id') eventId: string): Promise<User[]> {
+    return this.eventService.findAllUsers(eventId);
+  }
+  @Put(':id')
+  async updateEvent(
+    @Param('id') eventId: string,
+    @Body() updateEventDto: UpdateEventDto
+  ): Promise<Event> {
+    try {
+      const updatedEvent = await this.eventService.update(
+        eventId,
+        updateEventDto
+      );
+      return updatedEvent;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw new NotFoundException(error.message);
+      }
+      throw error; // Rethrow other errors
+    }
+  }
+  @Put(':id/user')
+async deleteUser(
+  @Param('id') eventId: string,
+  @Body('user_id') user_id: string
+): Promise<Event> {
+  try {
+    const updatedEvent = await this.eventService.removeUser(eventId, user_id);
+    return updatedEvent;
+  } catch (error) {
+    if (error instanceof NotFoundException) {
+      throw new NotFoundException(error.message);
+    }
+    throw error; // Rethrow other errors
+  }
+}
+
 }

@@ -1,1 +1,37 @@
-<p>event-detail works!</p>
+<body class="bg-gray-100">
+    <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
+        <div class="flex justify-between items-center mb-5">
+            <h2 class="text-2xl font-bold">{{ event?.name }}'s Profile</h2>
+            <a routerLink="/events/add/{{ event?._id }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
+            <p class="p-3 bg-gray-200 rounded">{{ event?._id }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+            <p class="p-3 bg-gray-200 rounded">{{ event?.name }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Date</label>
+            <p class="p-3 bg-gray-200 rounded">{{ event?.date | date }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Location</label>
+            <p class="p-3 bg-gray-200 rounded">{{ event?.location }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Capacity</label>
+            <p class="p-3 bg-gray-200 rounded">{{userCount}} / {{ event?.capacity }}</p>
+            <a routerLink="/events/{{ event?._id }}/users" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View registered users</a>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">OpenTo</label>
+            <p class="p-3 bg-gray-200 rounded">{{ event?.openTo }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Association</label>
+            <p class="p-3 bg-gray-200 rounded">{{ association?.name }}</p>
+        </div>
+    </div>
+</body>

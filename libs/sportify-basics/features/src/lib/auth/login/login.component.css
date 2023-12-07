@@ -1,9 +1,7 @@
-/* FILEPATH: /c:/SchoolProjects/j2/sportify-nx/libs/sportify-basics/features/src/lib/auth/login/login.component.css */
-
-body {
-    background-color: #f7fafc;
+body{
+    min-height: 75vh;
+    background: #f7f7f7;
 }
-
 .container {
     margin: auto;
     margin-top: 10px;

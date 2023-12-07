@@ -14,6 +14,7 @@ import {
   UserDetailComponent,
   UserEditComponent,
   UserListComponent,
+  UsersInEventComponent,
 } from '@sportify-nx/sportify-basics/features';
 
 export const appRoutes: Route[] = [
@@ -58,9 +59,19 @@ export const appRoutes: Route[] = [
     component: AddEventComponent,
   },
   {
+    path: 'events/add/:id',
+    pathMatch: 'full',
+    component: AddEventComponent,
+  },
+  {
     path: 'events/:id',
     pathMatch: 'full',
     component: EventDetailComponent,
+  },
+  {
+    path: 'events/:id/users',
+    pathMatch: 'full',
+    component: UsersInEventComponent,
   },
   {
     path: 'associations',
@@ -85,7 +96,7 @@ export const appRoutes: Route[] = [
   {
     path: 'auth/register',
     pathMatch: 'full',
-    component: RegisterComponent,
+    component: UserEditComponent,
   },
   {
     path: 'auth/login',

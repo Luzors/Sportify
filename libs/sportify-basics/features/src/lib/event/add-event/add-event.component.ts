@@ -4,6 +4,7 @@ import { EventService } from '../event.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssociationService } from '../../association/association.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'sportify-nx-add-event',

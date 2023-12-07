@@ -82,7 +82,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     const password = control.value;
     //cannot start with number
     const regexp = new RegExp('^[a-zA-Z]([a-zA-Z0-9]){2,14}');
-    const test = regexp.test(password);
     if (regexp.test(password) !== true) {
       return { password: false };
     } else {

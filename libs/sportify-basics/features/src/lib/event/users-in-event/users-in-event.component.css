@@ -1,0 +1,25 @@
+.pls {
+    padding: 30px;
+    margin-left: 10%;
+    margin-right: 10%;
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Change from flex-start to center */
+    text-align: center; /* Add text-align for centering text content */
+  }
+  
+  h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .add-user-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  

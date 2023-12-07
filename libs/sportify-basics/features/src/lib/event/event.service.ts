@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-import { ApiResponse, IEvent } from '@sportify-nx/shared/api';
+import { ApiResponse, IEvent, IUser } from '@sportify-nx/shared/api';
 import { Injectable } from '@angular/core';
 import { environment } from '@sportify/shared/util-env';
 
@@ -53,8 +53,38 @@ export class EventService {
       .pipe(
         map((response: any) => {
           const currentDate = new Date();
-          return response.results.filter((event: IEvent) => new Date(event.date) > currentDate);
+          return response.results.filter(
+            (event: IEvent) => new Date(event.date) > currentDate
+          );
         }),
+        catchError(this.handleError)
+      );
+  }
+  public usersList(event_id: string, options?: any): Observable<IUser[] | null> {
+    console.log(`list ${this.endpoint}/${event_id}/user`);
+
+    return this.http
+      .get<ApiResponse<IEvent[]>>(this.endpoint + "/" + event_id + "/user", {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        map((response: any) => response.results as IUser[]),
+        tap(console.log),
+        catchError(this.handleError)
+      );
+  }
+  public addUserToEvent(event_id: string, user_id: string, options?: any): Observable<IEvent> {
+    console.log(`list ${this.endpoint}/${event_id}/user`);
+
+    return this.http
+      .post<ApiResponse<IEvent>>(`${this.endpoint}/${event_id}/user`, user_id, {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        tap(console.log),
+        map((response: any) => response.info),
         catchError(this.handleError)
       );
   }
