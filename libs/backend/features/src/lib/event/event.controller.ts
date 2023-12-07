@@ -53,12 +53,14 @@ export class EventController {
   @ApiBody({ type: CreateUserDto, description: 'User data' })
   @ApiResponse({ status: 200, description: 'User added successfully', type: Event })
   @ApiResponse({ status: 404, description: 'Event not found' })
-  async addUser(@Param('id') eventId: string, @Body() user_id: string): Promise<Event> {
+  async addUser(@Param('id') eventId: string, @Body('user_id') user_id: string): Promise<Event> {
+    console.log('Adding user to event:', eventId, ":::::" ,user_id);
     try {
       const updatedEvent = await this.eventService.addUser(eventId, user_id);
       return updatedEvent;
     } catch (error) {
       if (error instanceof NotFoundException) {
+        console.log('error:::', error);
         throw new NotFoundException(error.message);
       }
       throw error; // Rethrow other errors

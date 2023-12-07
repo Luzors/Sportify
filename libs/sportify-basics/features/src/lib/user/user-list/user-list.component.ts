@@ -29,7 +29,9 @@ export class UserListComponent implements OnInit, OnDestroy {
       this.userService.delete(userId).subscribe(
         () => {
           console.log('User deleted successfully:');
-          window.location.reload();
+          if (this.users){
+            this.users = this.users?.filter((user) => user._id !== userId);
+          }
         },
         (error) => {
           console.error('Error updating user:', error);

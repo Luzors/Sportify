@@ -43,9 +43,7 @@ export class AuthService {
           const item = localStorage.getItem(this.CURRENT_USER);
           if (item !== null) {
             const parsedItem = JSON.parse(item);
-            console.log('item::::::', parsedItem, 'JSON::::::', item);
             const tokenString = parsedItem?.results.access_token || null;
-            console.log('token::::::', tokenString);
             return this.validateToken(tokenString).pipe(
               tap((response: IUser) => {
                 console.log('Token validated');

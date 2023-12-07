@@ -15,6 +15,7 @@ export class UsersInEventComponent implements OnInit, OnDestroy {
   users: IUser[] | null = null;
   private destroy$: Subject<void> = new Subject<void>();
   private subscription: Subscription | undefined = undefined;
+  registerString = 'Register';
   event: IEvent | null = null;
   currentUser: IUser | null = null;
 
@@ -65,6 +66,14 @@ export class UsersInEventComponent implements OnInit, OnDestroy {
           (results: IUser[] | null) => {
             console.log('results for users found:', results);
             this.users = results;
+            if(this.users !== null && this.currentUser !== null){
+              for (let i = 0; i < this.users?.length; i++) {
+                console.log(this.users[i]._id + ' ' + this.currentUser._id);
+                if (this.users[i]._id === this.currentUser._id) {
+                  this.registerString = 'Unregister';
+                }
+              }
+            }
           },
           (error) => {
             console.error('Error fetching data:', error);
@@ -82,18 +91,41 @@ export class UsersInEventComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
+  registerOrUnregisterUser(user_id: string | undefined) {
+    if (this.registerString === 'Register') {
+      this.registerUser(user_id);
+    } else {
+      this.unRegisterUser(user_id);
+    }
+  }
   registerUser(user_id: string | undefined) {
-    console.log('userID:::', user_id);
-    console.log('currentUser id:::', this.currentUser?._id);
     if (this.event?._id && user_id) {
       this.eventService.addUserToEvent(this.event._id, user_id)
         .subscribe(
           (response) => {
             console.log('User registered successfully:', response);
+            this.registerString = 'Unregister';
+            if(this.currentUser !== null){
+              this.users?.push(this.currentUser);
+            }
           },
           (error) => {
             console.error('Error registering user:', error);
+          }
+        );
+    }
+  }
+  unRegisterUser(user_id: string | undefined) {
+    if (this.event?._id && user_id) {
+      this.eventService.removeUserFromEvent(this.event._id, user_id)
+        .subscribe(
+          (response) => {
+            console.log('User unregistered successfully:', response);
+            this.registerString = 'Register';
+              this.users?.splice(this.users?.findIndex((user) => user._id === user_id), 1);
+          },
+          (error) => {
+            console.error('Error unregistering user:', error);
           }
         );
     }

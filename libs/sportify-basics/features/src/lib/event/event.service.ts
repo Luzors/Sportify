@@ -76,9 +76,11 @@ export class EventService {
   }
   public addUserToEvent(event_id: string, user_id: string, options?: any): Observable<IEvent> {
     console.log(`list ${this.endpoint}/${event_id}/user`);
-
+  
+    const requestBody = { user_id };  // Wrap user_id in an object
+  
     return this.http
-      .post<ApiResponse<IEvent>>(`${this.endpoint}/${event_id}/user`, user_id, {
+      .post<ApiResponse<IEvent>>(`${this.endpoint}/${event_id}/user`, requestBody, {
         ...options,
         ...httpOptions,
       })
@@ -88,7 +90,23 @@ export class EventService {
         catchError(this.handleError)
       );
   }
-
+  public removeUserFromEvent(event_id: string, user_id: string, options?: any): Observable<IEvent> {
+    console.log(`list ${this.endpoint}/${event_id}/user`);
+  
+    const requestBody = { user_id };  // Wrap user_id in an object
+  
+    return this.http
+      .put<ApiResponse<IEvent>>(`${this.endpoint}/${event_id}/user`, requestBody, {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        tap(console.log),
+        map((response: any) => response.info),
+        catchError(this.handleError)
+      );
+  }
+  
   /**
    * Get a single item from the service.
    *
