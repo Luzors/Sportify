@@ -43,7 +43,7 @@ export class UserService {
         return this.userModel.findById(_id).exec();
       }
       async findByEmail(email: string): Promise<User | null> {
-        return this.userModel.findOne({ email: email }).exec();
+        return this.userModel.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } }).exec();
       }
       async findAllById(_ids: string[]): Promise<User[]> {
         return this.userModel.find({

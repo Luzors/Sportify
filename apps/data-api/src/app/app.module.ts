@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import {BackendFeaturesAssociationModule, BackendFeaturesUserModule, BackendFeaturesAuthModule, BackendFeaturesEventModule} from '@sportify-nx/backend/features'
+import {BackendFeaturesAssociationModule, BackendFeaturesUserModule, BackendFeaturesAuthModule, BackendFeaturesEventModule, BackendFeaturesAdminModule} from '@sportify-nx/backend/features'
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    BackendFeaturesUserModule, BackendFeaturesAssociationModule, BackendFeaturesAuthModule, BackendFeaturesEventModule,
+    BackendFeaturesUserModule, BackendFeaturesAssociationModule, BackendFeaturesAuthModule, BackendFeaturesEventModule, BackendFeaturesAdminModule,
      MongooseModule.forRoot("mongodb+srv://jorn:sportifydbpassword1@sportifyatlas.jgwoewq.mongodb.net/?retryWrites=true&w=majority")],
   controllers: [AppController],
   providers: [AppService],

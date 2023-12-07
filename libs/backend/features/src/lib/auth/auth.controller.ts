@@ -4,7 +4,8 @@ import { User } from '../user/schemas/user.schema';
 import { UserService } from './../user/user.service';
 import { AuthService } from './../auth/auth.service';
 import { Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
-import { ILoginUser } from '@sportify-nx/shared/api';
+import { ILoginAdmin, ILoginUser } from '@sportify-nx/shared/api';
+import { Admin } from '../admin/schemas/admin.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -19,9 +20,13 @@ export class AuthController {
   login(@Body() data: ILoginUser): Promise<{ access_token: string; user: User }> {
     return this.authService.login(data.email, data.password);
   }
+  @Post('login/admin')
+  loginAdmin(@Body() data: ILoginAdmin): Promise<{ access_token: string; admin: Admin }> {
+    return this.authService.loginAdmin(data.email, data.password);
+  }
 
   @Get('token')
-  async validateToken(@Headers('Authorization') authorizationHeader: string): Promise<User> {
+  async validateToken(@Headers('Authorization') authorizationHeader: string): Promise<User | Admin | null> {
     const token = authorizationHeader.replace('Bearer ', ''); // Extract the token from the Authorization header
 
     try {

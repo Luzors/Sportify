@@ -56,7 +56,12 @@
                 <p id="password-invalid">Please enter a valid password (starts with a letter and contains at least 3 letters or numbers in total)</p>
               </span>
             </div>
-  
+
+            <section class="example-section">
+              <label for="adminLogin">Admin login</label>
+              <input type="checkbox" [(ngModel)]="adminLogin" [ngModelOptions]="{standalone: true}" class="checkbox">
+            </section>
+            
             <div class="form-group">
               <button
                 id="submitbutton"

@@ -22,6 +22,8 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserService } from './user/user.service';
 import { EventService } from './event/event.service';
 import { UsersInEventComponent } from './event/users-in-event/users-in-event.component';
+import { AdminFromAssociationListComponent } from './admin/admin-from-association-list/admin-from-association-list.component';
+import { AdminService } from './admin/admin.service';
 
 @NgModule({
   imports: [
@@ -47,8 +49,9 @@ import { UsersInEventComponent } from './event/users-in-event/users-in-event.com
     AddEventComponent,
     EventDetailComponent,
     UsersInEventComponent,
+    AdminFromAssociationListComponent,
   ],
-  providers: [UserService, AssociationService, AuthService, EventService],
+  providers: [UserService, AssociationService, AuthService, EventService, AdminService],
   exports: [
     UserListComponent,
     UserDetailComponent,
@@ -64,6 +67,7 @@ import { UsersInEventComponent } from './event/users-in-event/users-in-event.com
     AddEventComponent,
     EventDetailComponent,
     UsersInEventComponent,
+    AdminFromAssociationListComponent,
   ],
 })
 export class FeaturesModule {}

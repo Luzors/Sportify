@@ -3,6 +3,7 @@ import { AssociationService } from '../association.service';
 import { IAssociation } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
 import {Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'sportify-nx-association-list',
@@ -11,9 +12,11 @@ import {Router } from '@angular/router';
 })
 export class AssociationListComponent implements OnInit, OnDestroy {
   associations: IAssociation[] | null = null;
+  myAssociation: IAssociation | null = null;
+  currentUser = this.authService.getUserFromLocalStorage();
   subscription: Subscription | undefined = undefined;
 
-  constructor(private associationService: AssociationService, private router:Router) {}
+  constructor(private associationService: AssociationService, private router:Router, private authService: AuthService) {}
 
   ngOnInit(): void {
       this.subscription = this.associationService.list().subscribe((results) => {

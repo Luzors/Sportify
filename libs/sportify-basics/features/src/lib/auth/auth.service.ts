@@ -1,6 +1,6 @@
 import { HttpHeaders, HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { IUser, ApiResponse, IUpdateUser } from "@sportify-nx/shared/api";
+import { IUser, ApiResponse, IUpdateUser, IAdmin } from "@sportify-nx/shared/api";
 import { environment } from "@sportify/shared/util-env";
 import { BehaviorSubject, Observable, map, catchError, tap, throwError, of, switchMap, defer } from "rxjs";
 import { Router } from '@angular/router';
@@ -21,7 +21,7 @@ export const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-  public currentUser$ = new BehaviorSubject<IUser | undefined>(undefined);
+  public currentUser$ = new BehaviorSubject<IUser | IAdmin | undefined>(undefined);
   private readonly CURRENT_USER = 'currentuser';
   private readonly headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -44,11 +44,33 @@ export class AuthService {
           if (item !== null) {
             const parsedItem = JSON.parse(item);
             const tokenString = parsedItem?.results.access_token || null;
-            return this.validateToken(tokenString).pipe(
-              tap((response: IUser) => {
-                console.log('Token validated');
-              })
-            );
+            return this.validateToken(tokenString);
+          }
+          console.log('No token found returning null');
+          return of(null);
+        } else {
+          console.log(`No current user found`);
+          return of(null);
+        }
+      })
+    )
+    .subscribe(() => console.log('Startup user auth done'));
+
+
+      //admin
+      console.log("Looking for admin")
+      this.getAdminFromLocalStorage()
+    .pipe(
+
+      switchMap((admin: IAdmin | null) => {
+        if (admin) {
+          console.log('Admin found in local storage');
+          this.currentUser$.next(admin);
+          const item = localStorage.getItem(this.CURRENT_USER);
+          if (item !== null) {
+            const parsedItem = JSON.parse(item);
+            const tokenString = parsedItem?.results.access_token || null;
+            return this.validateToken(tokenString);
           }
           console.log('No token found returning null');
           return of(null);
@@ -59,7 +81,7 @@ export class AuthService {
       })
     )
     .subscribe(() => console.log('Startup auth done'));
-  
+
   }
 
   login(email: string, password: string): Observable<IUser> {
@@ -81,12 +103,31 @@ export class AuthService {
           catchError(this.handleError)
         );
   }
+  adminLogin(email: string, password: string): Observable<IAdmin> {
+    console.log("login at ${this.endpoint}/login/admin");
+
+    return this.http
+      .post<IUser>(
+    
+        `${this.endpoint}/login/admin`,
+        { email: email, password: password },
+        { headers: this.headers }
+      )
+      .pipe(
+        map((admin) => {
+          this.saveUserToLocalStorage(admin);
+          this.currentUser$.next(admin);
+          return admin;
+        }),
+        catchError(this.handleError)
+      );
+}
 /**
    * Validate het token bij de backend API. Als er geen HTTP error
    * als response komt is het token nog valid. We doen dan verder niets.
    * Als het token niet valid is loggen we de user uit.
    */
-validateToken(token: string): Observable<IUser> {
+validateToken(token: string): Observable<IUser | IAdmin> {
   const url = `${this.endpoint}/token`;
   const httpOptions = {
     headers: new HttpHeaders({
@@ -128,22 +169,7 @@ validateToken(token: string): Observable<IUser> {
               catchError(this.handleError)
           );
   }
-  // logout(): void {
-  //   this.router
-  //     .navigate(['/'])
-  //     .then((success) => {
-  //       // true when canDeactivate allows us to leave the page.
-  //       if (success) {
-  //         console.log('logout - removing local user info');
-  //         localStorage.removeItem(this.CURRENT_USER);
-  //         this.currentUser$.next(undefined);
-  //         // this.alertService.success('You have been logged out.');
-  //       } else {
-  //         console.log('navigate result:', success);
-  //       }
-  //     })
-  //     .catch((error) => console.log('not logged out!'));
-  // }
+
   logout(): void {
 
           console.log('logout - removing local user info');
@@ -158,6 +184,17 @@ validateToken(token: string): Observable<IUser> {
       const item = localStorage.getItem(this.CURRENT_USER);
       if (item !== null) {
         const localUser = JSON.parse(item).results.user as IUser;
+        return of(localUser);
+      } else {
+        return of(null);
+      }
+    });
+  }
+  getAdminFromLocalStorage(): Observable<IAdmin | null> {
+    return defer(() => {
+      const item = localStorage.getItem(this.CURRENT_USER);
+      if (item !== null) {
+        const localUser = JSON.parse(item).results.admin as IAdmin;
         return of(localUser);
       } else {
         return of(null);

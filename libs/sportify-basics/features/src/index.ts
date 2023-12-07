@@ -14,4 +14,4 @@ export * from './lib/association/association-edit/association-edit.component';
 export * from './lib/auth/login/login.component';
 export * from './lib/auth/register/register.component';
 export * from './lib/auth/auth.service';
-
+export * from './lib/admin/admin-from-association-list/admin-from-association-list.component';

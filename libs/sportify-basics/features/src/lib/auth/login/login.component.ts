@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   subs!: Subscription | undefined;
   submitted = false;
+  adminLogin = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -30,13 +31,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     this.subs = this.authService.getUserFromLocalStorage()
-      .subscribe((user: IUser | null) => {
-        if (user) {
-          console.log('User already logged in > logging out');
-          this.authService.logout();
+    .subscribe((user: IUser | null) => {
+      if (user) {
+        console.log('User already logged in > logging out');
+        this.authService.logout();
+      } else {
 
+        const admin = this.authService.getAdminFromLocalStorage();
+        if (admin) {
+          console.log('Admin already logged in > logging out');
+          this.authService.logout();   
+        } else {
+          console.log('No user or admin logged in > continuing to page');
         }
-      });
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -50,6 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.submitted = true;
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
+      if(!this.adminLogin){
       this.authService
         .login(email, password)
         // .pipe(delay(1000))
@@ -59,7 +69,18 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate(['/']);
           }
           this.submitted = false;
-        });
+        }); } else {
+          this.authService
+          .adminLogin(email, password)
+          // .pipe(delay(1000))
+          .subscribe((admin) => {
+            if (admin) {
+              console.log('Logged in');
+              this.router.navigate(['/']);
+            }
+            this.submitted = false;
+          });
+        }
     } else {
       this.submitted = false;
       console.error('loginForm invalid');
