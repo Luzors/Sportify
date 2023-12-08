@@ -2,11 +2,13 @@ import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } fr
 import { CreateAdminDto, UpdateAdminDto } from '@sportify-nx/backend/dto';
 import { AdminService } from './admin.service';
 import { Admin } from './schemas/admin.schema';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('admin')
 export class AdminController {
     constructor(private adminService: AdminService) {}
 
+    @Public()
     @Get('')
     getAll(): Promise<Admin[]> {
       return this.adminService.findAll();

@@ -16,6 +16,7 @@ import {
 import { Association } from './schemas/association.schema';
 import { AdminService } from '../admin/admin.service';
 import { Admin } from '../admin/schemas/admin.schema';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('associations')
 export class AssociationController {
@@ -24,6 +25,7 @@ export class AssociationController {
     private associationService: AssociationService
   ) {}
 
+  @Public()
   @Get('')
   getAll(): Promise<Association[]> {
     return this.associationService.findAll();
@@ -34,6 +36,7 @@ export class AssociationController {
     return this.associationService.delete(_id);
   }
 
+  @Public()
   @Get(':id')
   async getOne(@Param('id') _id: string): Promise<Association> {
     const association = await this.associationService.findById(_id);
@@ -42,6 +45,8 @@ export class AssociationController {
     }
     return association;
   }
+  
+  @Public()
   @Get(':id/admins')
   getAllAdmins(@Param('id') association_id: string): Promise<Admin[]> {
     return this.adminService.findAllByAssociation(association_id);

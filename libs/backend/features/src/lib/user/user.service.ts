@@ -1,13 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { User } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto, UpdateUserDto } from '@sportify-nx/backend/dto';
+import { JwtService } from '@nestjs/jwt';
 
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private readonly userModel: Model<User>){
+    constructor(@InjectModel(User.name) private readonly userModel: Model<User>, private jwtService: JwtService){
     }
 
     async create(createUserDto: CreateUserDto): Promise<User> {
@@ -30,6 +31,7 @@ export class UserService {
       }
 
       async delete(_id: string): Promise<void> {
+        
         const result = await this.userModel.deleteOne({ _id }).exec();
     
         if (result.deletedCount === 0) {
@@ -51,6 +53,15 @@ export class UserService {
             $in: _ids
           }
         }).exec();
+      }
+
+      async getUserFromToken(token: string): Promise<User> {
+        const decoded = await this.jwtService.verifyAsync(token);
+        const user = await this.findByEmail(decoded.email);
+        if (!user) {
+          throw new UnauthorizedException();
+        }
+        return user;
       }
       
 }

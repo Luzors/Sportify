@@ -5,14 +5,26 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Event, EventSchema } from './event/schemas/event.schema';
 import { UserService } from './user/user.service';
 import { User, UserSchema } from './user/schemas/user.schema';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
-  imports:  [  MongooseModule.forFeature([
-    { name: Event.name, schema: EventSchema },
-    { name: User.name, schema: UserSchema },
-  ])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: Event.name, schema: EventSchema },
+      { name: User.name, schema: UserSchema },
+    ]),
+  ],
   controllers: [EventController],
-  providers: [EventService, UserService],
-  exports: [EventService, MongooseModule.forFeature([{name: Event.name, schema: EventSchema}])],
+  providers: [
+    { provide: APP_GUARD, useClass: AuthGuard },
+    EventService,
+    UserService,
+
+  ],
+  exports: [
+    EventService,
+    MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
+  ],
 })
 export class BackendFeaturesEventModule {}

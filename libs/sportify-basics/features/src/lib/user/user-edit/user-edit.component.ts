@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssociationService } from '../../association/association.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'sportify-nx-user-edit',
@@ -24,7 +25,7 @@ export class UserEditComponent implements OnInit, OnDestroy{
   _paramId: string | null = null;
   associations: IAssociation[] | null = null;
   
-  constructor(private associationService: AssociationService, private userService: UserService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService, private associationService: AssociationService, private userService: UserService, private route: ActivatedRoute, private router: Router) { }
   
   ngOnInit(): void {
     this.subscription = this.associationService.list().subscribe((results) => {
@@ -78,17 +79,27 @@ export class UserEditComponent implements OnInit, OnDestroy{
     }
   }
   updateUser(): void {
-    this.userService.update(this._paramId, this.user).subscribe(
-      (updatedUser: IUser) => {
-        console.log('User updated successfully:', updatedUser, this._paramId,this.user);
-        this.router.navigate(['/users/' + this.user._id]);
-      },
-      (error) => {
-        console.error('Error updating user:', error);
-        // Handle error scenario
+    this.authService.getTokenFromLocalStorage().subscribe(
+      (token: string | null) => {
+        if (!token) {
+          console.error('No token found in local storage');
+          return;
+        }
+  
+        this.userService.update(this._paramId, this.user, token).subscribe(
+          (updatedUser: IUser) => {
+            console.log('User updated successfully:', updatedUser, this._paramId, this.user);
+            this.router.navigate(['/users/' + this.user._id]);
+          },
+          (error) => {
+            console.error('Error updating user:', error);
+            // Handle error scenario
+          }
+        );
       }
     );
   }
+  
   
   createUser(): void {
       this.userService.create(this.user).subscribe(

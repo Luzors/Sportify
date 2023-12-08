@@ -4,12 +4,14 @@ import { EventService } from './event.service';
 import { CreateEventDto, CreateUserDto, UpdateEventDto } from '@sportify-nx/backend/dto';
 import { Event } from './schemas/event.schema';
 import { User } from '../user/schemas/user.schema';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('events') // Tag for grouping API endpoints in Swagger
 @Controller('events')
 export class EventController {
   constructor(private eventService: EventService) {}
 
+  @Public()
   @Get('')
   @ApiOperation({ summary: 'Get all events' })
   @ApiResponse({ status: 200, description: 'Return a list of events', type: Event, isArray: true })
@@ -26,6 +28,7 @@ export class EventController {
     return this.eventService.delete(_id);
   }
 
+  @Public()
   @Get(':id')
   @ApiOperation({ summary: 'Get an event by ID' })
   @ApiParam({ name: 'id', description: 'Event ID' })
@@ -67,6 +70,7 @@ export class EventController {
     }
   }
 
+  @Public()
   @Get(':id/user')
   @ApiOperation({ summary: 'Get all users for an event' })
   @ApiParam({ name: 'id', description: 'Event ID' })

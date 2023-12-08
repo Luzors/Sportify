@@ -8,6 +8,8 @@ import { jwtConstants } from './auth/constants';
 import { JwtModule } from '@nestjs/jwt';
 import { AdminService } from './admin/admin.service';
 import { Admin, AdminSchema } from './admin/schemas/admin.schema';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [
@@ -20,7 +22,13 @@ import { Admin, AdminSchema } from './admin/schemas/admin.schema';
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, AdminService],
+  providers: [
+    { provide: APP_GUARD, useClass: AuthGuard },
+    AuthService,
+    UserService,
+    AdminService,
+
+  ],
   exports: [
     AuthService,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),

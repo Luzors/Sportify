@@ -1,22 +1,42 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Headers, Controller, Delete, Get, NotFoundException, Param, Post, Put, UnauthorizedException, Req } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from '@sportify-nx/backend/dto';
 import { User } from './schemas/user.schema';
 import { UserService } from './user.service';
+import { Public } from '../auth/decorators/public.decorator';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private authService: AuthService) {}
 
+  @Public()
   @Get('')
   getAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
   @Delete(':id')
-  delete(@Param('id') _id: string): Promise<void> {
-    return this.userService.delete(_id);
+  async delete(@Req() request: Request, @Param('id') _id: string): Promise<void> {
+    const userEmail = (request as any)['user'];
+    if (!userEmail) {
+      throw new UnauthorizedException('Only users can delete their own account');
+    }
+
+
+    const currentUser = await this.userService.findByEmail(userEmail.email); 
+    const user = await this.userService.findById(_id);
+
+    if (user && currentUser?.email === user.email) {
+      console.log('Deleting user', _id);
+      return this.userService.delete(_id);
+    } else if (!user) {
+      throw new NotFoundException('User not found');
+    } else {
+      throw new UnauthorizedException('You can only delete your own account');
+    }
   }
 
+  @Public()
   @Get(':id')
   async getOne(@Param('id') _id: string): Promise<User> {
     const user = await this.userService.findById(_id);
@@ -42,4 +62,12 @@ export class UserController {
       throw error; // Rethrow other errors
     }
   }
+  // private extractTokenFromHeader(authorizationHeader: string): string {
+  //   if (authorizationHeader) {
+  //     const [, token] = authorizationHeader.split(' ');
+  //     return token;
+  //   }
+  //   console.log('No token found in header');
+  //   return '';
+  // }
 }

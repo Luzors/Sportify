@@ -1,5 +1,9 @@
 import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IUser } from '@sportify-nx/shared/api';
 import { Injectable } from '@angular/core';
@@ -20,6 +24,9 @@ export const httpOptions = {
 @Injectable()
 export class UserService {
   endpoint = environment.dataApiUrl + `/api/users`;
+  private readonly headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   constructor(private readonly http: HttpClient) {}
 
@@ -71,7 +78,14 @@ export class UserService {
         catchError(this.handleError)
       );
   }
-  public update(_id: string | null, user: IUser, options?: any) {
+  public update(_id: string | null, user: IUser, token: string, options?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
+
     return this.http
       .put<ApiResponse<IUser>>(this.endpoint + '/' + _id, user, {
         ...options,
@@ -83,7 +97,18 @@ export class UserService {
         catchError(this.handleError)
       );
   }
-  public delete(_id: string | undefined, options?: any): Observable<IUser> {
+  public delete(
+    _id: string | undefined,
+    token: string,
+    options?: any
+  ): Observable<IUser> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
+
     return this.http
       .delete<ApiResponse<IUser[]>>(this.endpoint + '/' + _id, {
         ...options,

@@ -19,9 +19,11 @@ export class AssociationListComponent implements OnInit, OnDestroy {
   constructor(private associationService: AssociationService, private router:Router, private authService: AuthService) {
     this.authService.getAdminFromLocalStorage().subscribe(admin => {
       this.currentUser = admin;
-      this.associationService.read(this.currentUser?.association || null).subscribe(association => {
-        this.myAssociation = association;
-      });
+      if (this.currentUser?.association){
+        this.associationService.read(this.currentUser?.association).subscribe(association => {
+          this.myAssociation = association;
+        });
+      }
     });
   }
 
