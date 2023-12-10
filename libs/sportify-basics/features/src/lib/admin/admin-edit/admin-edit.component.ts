@@ -4,9 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IAdmin, IAssociation } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
 import { AssociationService } from '../../association/association.service';
-import { AuthService } from '../../auth/auth.service';
 import { AdminService } from '../admin.service';
-// Import other necessary modules
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'sportify-nx-admin-edit',
