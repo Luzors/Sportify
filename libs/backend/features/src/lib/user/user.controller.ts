@@ -21,12 +21,10 @@ export class UserController {
     if (!userEmail) {
       throw new UnauthorizedException('Only users can delete their own account');
     }
-
-
     const currentUser = await this.userService.findByEmail(userEmail.email); 
     const user = await this.userService.findById(_id);
 
-    if (user && currentUser?.email === user.email) {
+    if (user && currentUser?.email === user.email || currentUser?.roles === 'editor') {
       console.log('Deleting user', _id);
       return this.userService.delete(_id);
     } else if (!user) {
@@ -51,16 +49,31 @@ export class UserController {
     return this.userService.create(data);
   }
   @Put(':id')
-  async updateUser(@Param('id') userId: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
-    try {
-      const updatedUser = await this.userService.update(userId, updateUserDto);
-      return updatedUser;
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new NotFoundException(error.message);
-      }
-      throw error; // Rethrow other errors
+  async updateUser(@Req() request: Request, @Param('id') userId: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+    const userEmail = (request as any)['user'];
+    if (!userEmail) {
+      throw new UnauthorizedException('Only users can edit their own account');
     }
+    const currentUser = await this.userService.findByEmail(userEmail.email); 
+    const user = await this.userService.findById(userId);
+
+    if (user && currentUser?.email === user.email || currentUser?.roles === 'editor') {
+      console.log('Updating user', userId);
+      try {
+        const updatedUser = await this.userService.update(userId, updateUserDto);
+        return updatedUser;
+      } catch (error) {
+        if (error instanceof NotFoundException) {
+          throw new NotFoundException(error.message);
+        }
+        throw error; 
+      }
+    } else if (!user) {
+      throw new NotFoundException('User not found');
+    } else {
+      throw new UnauthorizedException('You can only update your own account');
+    }
+    
   }
   // private extractTokenFromHeader(authorizationHeader: string): string {
   //   if (authorizationHeader) {

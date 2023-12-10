@@ -1,4 +1,6 @@
+// Import necessary modules
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAssociation, Sports } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
 import { AssociationService } from '../association.service';
@@ -9,36 +11,38 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './association-edit.component.html',
   styleUrls: ['./association-edit.component.css'],
 })
-export class AssociationEditComponent implements OnInit, OnDestroy{
+export class AssociationEditComponent implements OnInit, OnDestroy {
   sports = Object.values(Sports);
-  association: IAssociation = {
-    name: "",
-    sport: Sports.Other,
-  };
+  associationForm!: FormGroup; 
   subscription: Subscription | undefined;
   _paramId: string | null = null;
-  
-  constructor(private associationService: AssociationService, private route: ActivatedRoute, private router: Router) { }
-  
+  association: IAssociation | undefined;
+
+  constructor(
+    private fb: FormBuilder,
+    private associationService: AssociationService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
-    this.subscription = this.route.paramMap.subscribe(params => {
+    this.initForm();
+
+    this.subscription = this.route.paramMap.subscribe((params) => {
       const _id = params.get('id');
       this._paramId = _id;
-      this.association = {
-        name: "New Association",
-        sport: Sports.Other,
-      };
-  
+
       if (_id) {
         this.subscription = this.associationService.read(_id).subscribe(
           (association: IAssociation) => {
             if (association) {
               this.association = association;
+              this.associationForm.patchValue(association);
             } else {
               console.error('Association not found');
             }
           },
-          error => {
+          (error) => {
             console.error('Error fetching association:', error);
             // Handle error scenario
           }
@@ -46,25 +50,40 @@ export class AssociationEditComponent implements OnInit, OnDestroy{
       }
     });
   }
-  
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
-  updateOrCreateAssociation(): void{
-    if(this.association._id){
-      this.updateAssociation();
+
+  initForm(): void {
+    // Initialize the reactive form with form controls and validations
+    this.associationForm = this.fb.group({
+      id: [{ value: null, disabled: true }],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      sport: [Sports.Other, Validators.required],
+    });
+  }
+
+  updateOrCreateAssociation(): void {
+    if (this.associationForm.valid) {
+      if (this._paramId) {
+        this.updateAssociation();
+      } else {
+        this.createAssociation();
+      }
     } else {
-      this.createAssociation();
+      // Handle form validation errors
+      console.error('Form is not valid');
     }
   }
+
   updateAssociation(): void {
-    this.associationService.update(this._paramId, this.association).subscribe(
+    this.associationService.update(this._paramId, this.associationForm.value).subscribe(
       (updatedAssociation: IAssociation) => {
-        console.log('Association updated successfully:', updatedAssociation, this._paramId,this.association);
-        this.router.navigate(['/associations/' + this.association._id]);
+        console.log('Association updated successfully:', updatedAssociation, this._paramId, this.associationForm.value);
+        this.router.navigate(['/associations/' + this._paramId]);
       },
       (error) => {
         console.error('Error updating association:', error);
@@ -72,17 +91,16 @@ export class AssociationEditComponent implements OnInit, OnDestroy{
       }
     );
   }
-  
+
   createAssociation(): void {
-      this.associationService.create(this.association).subscribe(
-        (createdAssociation: IAssociation) => {
-          console.log('Association created successfully:', createdAssociation);
-          this.router.navigate(['/associations']);
-        },
-        (error) => {
-          console.error('Error creating association:', error);
-        }
-      );
-    
+    this.associationService.create(this.associationForm.value).subscribe(
+      (createdAssociation: IAssociation) => {
+        console.log('Association created successfully:', createdAssociation);
+        this.router.navigate(['/associations']);
+      },
+      (error) => {
+        console.error('Error creating association:', error);
+      }
+    );
   }
 }

@@ -18,7 +18,7 @@ export class User {
   @IsMongoId()
   _id!: string;
 
-  @Prop()
+  @Prop({required: true})
     name!: string;
 
   @Prop({
@@ -28,19 +28,19 @@ export class User {
   })
   email!: string;
 
-  @Prop()
+  @Prop({required: true})
   password!: string;
 
-  @Prop()
+  @Prop({required: true})
   male!: boolean;
 
-  @Prop()
+  @Prop({required: true})
   roles!: string;
 
-  @Prop()
+  @Prop({required: true})
   birthdate!: Date;
 
-  @Prop({type: String, ref: 'Association'})
+  @Prop({type: String, ref: 'Association', required: true})
   association!: string;
 }
 

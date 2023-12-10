@@ -20,22 +20,22 @@ export class Event {
   @IsMongoId()
   _id!: string;
 
-  @Prop()
+  @Prop({required: true})
   name!: string;
 
-  @Prop()
+  @Prop({required: true})
   date!: Date;
 
-  @Prop()
+  @Prop({required: true})
   location!: string;
 
-  @Prop()
+  @Prop({required: true})
   capacity!: number;
 
   @Prop({required: true, type: String, enum: Object.values(OpenTo)})
   openTo!: OpenTo;
 
-  @Prop({ type: String, ref: 'Association' })
+  @Prop({ type: String, ref: 'Association', required: true })
   association!: string;
 
   @Prop([{ type: String, ref: 'User' }])

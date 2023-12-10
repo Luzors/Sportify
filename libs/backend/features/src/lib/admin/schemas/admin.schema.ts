@@ -18,7 +18,7 @@ export class Admin {
   @IsMongoId()
   _id!: string;
 
-  @Prop()
+  @Prop({required: true})
     name!: string;
 
   @Prop({
@@ -28,7 +28,7 @@ export class Admin {
   })
   email!: string;
 
-  @Prop()
+  @Prop({required: true})
   password!: string;
 
   @Prop({type: String, ref: 'Association', required: true})
