@@ -112,6 +112,11 @@ export const appRoutes: Route[] = [
     component: AdminEditComponent,
   },
   {
+    path: 'admin/add',
+    pathMatch: 'full',
+    component: AdminEditComponent,
+  },
+  {
     path: 'auth/register',
     pathMatch: 'full',
     component: UserEditComponent,

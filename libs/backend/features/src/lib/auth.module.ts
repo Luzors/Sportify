@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
@@ -10,6 +10,8 @@ import { AdminService } from './admin/admin.service';
 import { Admin, AdminSchema } from './admin/schemas/admin.schema';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { EventService } from './event/event.service';
+import { Event, EventSchema } from './event/schemas/event.schema';
 
 @Module({
   imports: [
@@ -20,19 +22,21 @@ import { AuthGuard } from './auth/auth.guard';
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
+    MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
   ],
   controllers: [AuthController],
   providers: [
     { provide: APP_GUARD, useClass: AuthGuard },
-    AuthService,
-    UserService,
-    AdminService,
-
+    { provide: UserService, useFactory: () => forwardRef(() => UserService) },
+    { provide: AuthService, useFactory: () => forwardRef(() => AuthService) },
+    { provide: AdminService, useFactory: () => forwardRef(() => AdminService) },
+    { provide: EventService, useFactory: () => forwardRef(() => EventService) },
   ],
   exports: [
     AuthService,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
+    MongooseModule.forFeature([{ name: Event.name, schema: EventSchema }]),
   ],
 })
 export class BackendFeaturesAuthModule {}

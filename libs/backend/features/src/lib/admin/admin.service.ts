@@ -52,6 +52,12 @@ export class AdminService {
           }
         }).exec();
       }
+      async deleteAllByAssociation(association_id: string): Promise<void> {
+        const admins = this.findAllByAssociation(association_id);
+        (await admins).forEach(async (admin) => {
+          await this.delete(admin._id);
+        });
+      }
       async findAllByAssociation(association_id: string): Promise<Admin[]> {
         return this.adminModel.find({
           association: {

@@ -79,6 +79,15 @@ export class EventService {
     }
     return [];
   }
+  async findEventsByUser(_id: string): Promise<Event[]> {
+    return this.eventModel.find({ users: { $in: [_id] } }).exec();
+  }
+  async removeUserFromAllEvents(user_Id: string): Promise<void> {
+    const events = await this.findEventsByUser(user_Id);
+    for (const event of events) {
+      await this.removeUser(event._id, user_Id);
+    }
+  }
   async removeUser(eventId: string, userId: string): Promise<Event> {
     try {
       const updatedEvent = await this.eventModel.findOneAndUpdate(

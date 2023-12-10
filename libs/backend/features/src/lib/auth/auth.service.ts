@@ -17,7 +17,7 @@ export class AuthService {
         if (user?.password !== pass) {
           throw new UnauthorizedException();
         }
-        const payload = { sub: user._id, email: user.email };
+        const payload = { sub: user._id, email: user.email, isAdmin: false };
         return {
           access_token: await this.jwtService.signAsync(payload),
           user: user,
@@ -28,7 +28,7 @@ export class AuthService {
         if (admin?.password !== pass) {
           throw new UnauthorizedException();
         }
-        const payload = { sub: admin._id, email: admin.email };
+        const payload = { sub: admin._id, email: admin.email, isAdmin: true };
         return {
           access_token: await this.jwtService.signAsync(payload),
           admin: admin,

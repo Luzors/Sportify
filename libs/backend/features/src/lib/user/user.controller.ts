@@ -21,7 +21,7 @@ export class UserController {
     if (!userEmail) {
       throw new UnauthorizedException('Only users can delete their own account');
     }
-    const currentUser = await this.userService.findByEmail(userEmail.email); 
+    const currentUser = await this.userService.findByEmail(userEmail); 
     const user = await this.userService.findById(_id);
 
     if (user && currentUser?.email === user.email || currentUser?.roles === 'editor') {
@@ -54,7 +54,8 @@ export class UserController {
     if (!userEmail) {
       throw new UnauthorizedException('Only users can edit their own account');
     }
-    const currentUser = await this.userService.findByEmail(userEmail.email); 
+
+    const currentUser = await this.userService.findByEmail(userEmail); 
     const user = await this.userService.findById(userId);
 
     if (user && currentUser?.email === user.email || currentUser?.roles === 'editor') {
@@ -63,6 +64,7 @@ export class UserController {
         const updatedUser = await this.userService.update(userId, updateUserDto);
         return updatedUser;
       } catch (error) {
+        console.log('Error updating user');
         if (error instanceof NotFoundException) {
           throw new NotFoundException(error.message);
         }

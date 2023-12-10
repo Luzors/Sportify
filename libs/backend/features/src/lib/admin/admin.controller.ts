@@ -39,7 +39,7 @@ export class AdminController {
     if (!userEmail) {
       throw new UnauthorizedException('Only users can edit their own account');
     }
-    const currentUser = await this.userService.findByEmail(userEmail.email);
+    const currentUser = await this.userService.findByEmail(userEmail);
     const user = await this.adminService.findById(_id);
 
     if (currentUser?.roles === 'editor') {
@@ -72,7 +72,7 @@ export class AdminController {
         'You need to be logged in to create an admin'
       );
     }
-    const currentUser = await this.userService.findByEmail(userEmail.email);
+    const currentUser = await this.userService.findByEmail(userEmail);
 
     if (currentUser?.roles === 'editor') {
       console.log('Creating admin');
@@ -94,7 +94,7 @@ export class AdminController {
 
     let currentUser;
     if (!userEmail) {
-      currentUser = await this.userService.findByEmail(userEmail.email);
+      currentUser = await this.userService.findByEmail(userEmail);
     } else if (!adminReq) {
       currentUser = await this.adminService.findByEmail(adminReq.email);
     } else {

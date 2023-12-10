@@ -98,7 +98,7 @@ export class EventController {
 
     let currentUser;
     if (!userEmail) {
-      currentUser = await this.userService.findByEmail(userEmail.email);
+      currentUser = await this.userService.findByEmail(userEmail);
     } else if (!adminReq) {
       currentUser = await this.adminService.findByEmail(adminReq.email);
     } else {

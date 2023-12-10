@@ -1,67 +1,70 @@
 <body class="bg-gray-100">
-    <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
-  <form (ngSubmit)="updateOrCreateAdmin()" #adminForm="ngForm">
-          <div class="flex justify-between items-center mb-5">
-            <h2 class="text-2xl font-bold">
-              {{ admin.name }}'s Profile
-            </h2>
-            <button
-              type="submit"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            >
-              Save
-            </button>
-          </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
-            <input
-              type="text"
-              name="id"
-              [(ngModel)]="admin._id"
-              placeholder="Automatic"
-              class="p-3 bg-gray-200 rounded w-full"
-              readonly
-            />
-          </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-            <input
-              type="text"
-              name="name"
-              [(ngModel)]="admin.name"
-              class="p-3 bg-gray-200 rounded w-full"
-              autofocus
-            />
-          </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-            <input
-              type="email"
-              name="email"
-              [(ngModel)]="admin.email"
-              class="p-3 bg-gray-200 rounded w-full"
-            />
-          </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-            <input
-              type="text"
-              name="password"
-              [(ngModel)]="admin.password"
-              class="p-3 bg-gray-200 rounded w-full"
-            />
-          </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Association</label>
-            <select
-              type="text"
-              name="association"
-              [(ngModel)]="admin.association"
-              class="p-3 bg-gray-200 rounded w-full"
-            >
-            <option *ngFor="let association of associations" [value]="association._id">{{ association.name }}</option>
-            </select>
-          </div>
-        </form>
-    </div>
-  </body>
+  <div class="container mx-auto my-10 p-8 bg-white shadow-lg max-w-lg">
+    <form (ngSubmit)="updateOrCreateAdmin()" [formGroup]="adminForm">
+      <div class="flex justify-between items-center mb-5">
+        <h2 class="text-2xl font-bold">{{ adminForm.value.name }}'s Profile</h2>
+        <button
+          type="submit"
+          class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+        >
+          Save
+        </button>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">ID</label>
+        <input
+          type="text"
+          formControlName="id"
+          placeholder="Automatic"
+          class="p-3 bg-gray-200 rounded w-full"
+          readonly
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+        <input
+          type="text"
+          formControlName="name"
+          class="p-3 bg-gray-200 rounded w-full"
+          autofocus
+        />
+        <div
+          *ngIf="adminForm.get('name')!.hasError('required') && adminForm.get('name')!.touched"
+          class="text-red-500 mt-1"
+        >
+          Name is required
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="p-3 bg-gray-200 rounded w-full"
+        />
+        <!-- Add validation messages if needed -->
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+        <input
+          type="text"
+          formControlName="password"
+          class="p-3 bg-gray-200 rounded w-full"
+        />
+        <!-- Add validation messages if needed -->
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">Association</label>
+        <select
+          formControlName="association"
+          class="p-3 bg-gray-200 rounded w-full"
+        >
+          <option *ngFor="let association of associations" [value]="association._id">
+            {{ association.name }}
+          </option>
+        </select>
+        <!-- Add validation messages if needed -->
+      </div>
+    </form>
+  </div>
+</body>

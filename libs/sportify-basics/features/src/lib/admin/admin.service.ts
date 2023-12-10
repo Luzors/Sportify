@@ -59,7 +59,7 @@ export class AdminService {
         catchError(this.handleError)
       );
   }
-  public create(admin: IAdmin, token:string,options?: any) {
+  public create(admin: IAdmin, token:string, options?: any) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

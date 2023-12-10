@@ -74,14 +74,8 @@ export class EventService {
         catchError(this.handleError)
       );
   }
-  public addUserToEvent(event_id: string, user_id: string, token:string, options?: any): Observable<IEvent> {
+  public addUserToEvent(event_id: string, user_id: string, options?: any): Observable<IEvent> {
     console.log(`list ${this.endpoint}/${event_id}/user`);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      }),
-    };
     const requestBody = { user_id };  // Wrap user_id in an object
   
     return this.http

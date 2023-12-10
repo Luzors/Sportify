@@ -42,7 +42,7 @@ export class AssociationController {
     if (!userEmail) {
       throw new UnauthorizedException('Only logged in editors can update an association');
     }
-    const currentUser = await this.userService.findByEmail(userEmail.email); 
+    const currentUser = await this.userService.findByEmail(userEmail); 
 
     if (currentUser?.roles === 'editor') {
       console.log('Create association');
@@ -76,7 +76,7 @@ export class AssociationController {
     if (!userEmail) {
       throw new UnauthorizedException('Only users can delete their own account');
     }
-    const currentUser = await this.userService.findByEmail(userEmail.email); 
+    const currentUser = await this.userService.findByEmail(userEmail); 
 
     if (currentUser?.roles === 'editor') {
       console.log('Create association');
@@ -99,7 +99,7 @@ export class AssociationController {
 
     let currentUser;
     if (!userEmail) {
-      currentUser = await this.userService.findByEmail(userEmail.email);
+      currentUser = await this.userService.findByEmail(userEmail);
     } else if (!adminReq) {
       currentUser = await this.adminService.findByEmail(adminReq.email);
     } else {
