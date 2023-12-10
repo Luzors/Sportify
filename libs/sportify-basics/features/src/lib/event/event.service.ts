@@ -1,5 +1,5 @@
 import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IEvent, IUser } from '@sportify-nx/shared/api';
 import { Injectable } from '@angular/core';
@@ -74,9 +74,14 @@ export class EventService {
         catchError(this.handleError)
       );
   }
-  public addUserToEvent(event_id: string, user_id: string, options?: any): Observable<IEvent> {
+  public addUserToEvent(event_id: string, user_id: string, token:string, options?: any): Observable<IEvent> {
     console.log(`list ${this.endpoint}/${event_id}/user`);
-  
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     const requestBody = { user_id };  // Wrap user_id in an object
   
     return this.http
@@ -123,7 +128,13 @@ export class EventService {
         catchError(this.handleError)
       );
   }
-  public create(event: IEvent, options?: any) {
+  public create(event: IEvent, token:string, options?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .post<ApiResponse<IEvent>>(this.endpoint, event, {
         ...options,
@@ -135,7 +146,13 @@ export class EventService {
         catchError(this.handleError)
       );
   }
-  public update(_id: string | null, event: IEvent, options?: any) {
+  public update(_id: string | null, event: IEvent, token:string, options?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .put<ApiResponse<IEvent>>(this.endpoint + '/' + _id, event, {
         ...options,
@@ -147,7 +164,13 @@ export class EventService {
         catchError(this.handleError)
       );
   }
-  public delete(_id: string | undefined, options?: any): Observable<IEvent> {
+  public delete(_id: string | undefined, token: string, options?: any): Observable<IEvent> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .delete<ApiResponse<IEvent[]>>(this.endpoint + '/' + _id, {
         ...options,

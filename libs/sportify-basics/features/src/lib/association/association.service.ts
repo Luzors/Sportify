@@ -1,5 +1,5 @@
 import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IAdmin, IAssociation } from '@sportify-nx/shared/api';
 import { Injectable } from '@angular/core';
@@ -19,6 +19,7 @@ export const httpOptions = {
  */
 @Injectable()
 export class AssociationService {
+  
   endpoint = environment.dataApiUrl + `/api/associations`;
 
   constructor(private readonly http: HttpClient) {}
@@ -59,7 +60,13 @@ export class AssociationService {
         catchError(this.handleError)
       );
   }
-  public create(association: IAssociation, options?: any) {
+  public create(association: IAssociation, token:string, options?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .post<ApiResponse<IAssociation>>(this.endpoint, association, {
         ...options,
@@ -71,7 +78,13 @@ export class AssociationService {
         catchError(this.handleError)
       );
   }
-  public update(_id: string | null, association: IAssociation, options?: any) {
+  public update(_id: string | null, association: IAssociation, token:string, options?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .put<ApiResponse<IAssociation>>(this.endpoint + '/' + _id, association, {
         ...options,
@@ -97,7 +110,13 @@ export class AssociationService {
         catchError(this.handleError)
       );
   }
-  public delete(_id: string | undefined, options?: any): Observable<IAssociation> {
+  public delete(_id: string | undefined, token:string, options?: any): Observable<IAssociation> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .delete<ApiResponse<IAssociation[]>>(this.endpoint + '/' + _id, {
         ...options,

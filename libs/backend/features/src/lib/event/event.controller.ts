@@ -1,15 +1,18 @@
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Req, UnauthorizedException } from '@nestjs/common';
 import { EventService } from './event.service';
 import { CreateEventDto, CreateUserDto, UpdateEventDto } from '@sportify-nx/backend/dto';
 import { Event } from './schemas/event.schema';
 import { User } from '../user/schemas/user.schema';
 import { Public } from '../auth/decorators/public.decorator';
+import { UserService } from '../user/user.service';
+import { AdminService } from '../admin/admin.service';
+import { Admin } from '../admin/schemas/admin.schema';
 
 @ApiTags('events') // Tag for grouping API endpoints in Swagger
 @Controller('events')
 export class EventController {
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService, private userService: UserService, private adminService: AdminService) {}
 
   @Public()
   @Get('')
@@ -86,21 +89,48 @@ export class EventController {
   @ApiResponse({ status: 200, description: 'Event updated successfully', type: Event })
   @ApiResponse({ status: 404, description: 'Event not found' })
   async updateEvent(
+    @Req() request: Request,
     @Param('id') eventId: string,
     @Body() updateEventDto: UpdateEventDto
   ): Promise<Event> {
-    try {
-      const updatedEvent = await this.eventService.update(
-        eventId,
-        updateEventDto
+    const userEmail = (request as any)['user'];
+    const adminReq = (request as any)['admin'];
+
+    let currentUser;
+    if (!userEmail) {
+      currentUser = await this.userService.findByEmail(userEmail.email);
+    } else if (!adminReq) {
+      currentUser = await this.adminService.findByEmail(adminReq.email);
+    } else {
+      throw new UnauthorizedException(
+        'You need to be logged in to update an admin'
       );
-      return updatedEvent;
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new NotFoundException(error.message);
-      }
-      throw error; // Rethrow other errors
     }
+  
+    const event = await this.eventService.findById(eventId);
+    console.log('association id', event?._id);
+    if (
+      (event && currentUser instanceof Admin && currentUser?.association === event._id) || 
+      (currentUser instanceof User && currentUser?.roles === 'editor')
+    ) {
+      console.log('Update association');
+      try {
+        const updatedEvent = await this.eventService.update(
+          eventId,
+          updateEventDto
+        );
+        return updatedEvent;
+      } catch (error) {
+        if (error instanceof NotFoundException) {
+          throw new NotFoundException(error.message);
+        }
+        throw error; // Rethrow other errors
+      }
+    } else if (!event) {  
+      throw new NotFoundException('Association not found');
+    } else {  
+      throw new UnauthorizedException('You can only update an association if you are an editor');
+    }   
   }
 
   @Put(':id/user')

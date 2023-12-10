@@ -1,5 +1,5 @@
 import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IAdmin } from '@sportify-nx/shared/api';
 import { Injectable } from '@angular/core';
@@ -59,7 +59,13 @@ export class AdminService {
         catchError(this.handleError)
       );
   }
-  public create(admin: IAdmin, options?: any) {
+  public create(admin: IAdmin, token:string,options?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .post<ApiResponse<IAdmin>>(this.endpoint, admin, {
         ...options,
@@ -71,7 +77,13 @@ export class AdminService {
         catchError(this.handleError)
       );
   }
-  public update(_id: string | null, admin: IAdmin, options?: any) {
+  public update(_id: string | null, admin: IAdmin, token:string,options?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .put<ApiResponse<IAdmin>>(this.endpoint + '/' + _id, admin, {
         ...options,
@@ -83,7 +95,13 @@ export class AdminService {
         catchError(this.handleError)
       );
   }
-  public delete(_id: string | undefined, options?: any): Observable<IAdmin> {
+  public delete(_id: string | undefined, token:string, options?: any): Observable<IAdmin> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
     return this.http
       .delete<ApiResponse<IAdmin[]>>(this.endpoint + '/' + _id, {
         ...options,

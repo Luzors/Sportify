@@ -5,6 +5,7 @@ import { IAssociation, Sports } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
 import { AssociationService } from '../association.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'sportify-nx-association-edit',
@@ -13,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AssociationEditComponent implements OnInit, OnDestroy {
   sports = Object.values(Sports);
-  associationForm!: FormGroup; 
+  associationForm!: FormGroup;
   subscription: Subscription | undefined;
   _paramId: string | null = null;
   association: IAssociation | undefined;
@@ -22,7 +23,8 @@ export class AssociationEditComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private associationService: AssociationService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -80,27 +82,53 @@ export class AssociationEditComponent implements OnInit, OnDestroy {
   }
 
   updateAssociation(): void {
-    this.associationService.update(this._paramId, this.associationForm.value).subscribe(
-      (updatedAssociation: IAssociation) => {
-        console.log('Association updated successfully:', updatedAssociation, this._paramId, this.associationForm.value);
-        this.router.navigate(['/associations/' + this._paramId]);
-      },
-      (error) => {
-        console.error('Error updating association:', error);
-        // Handle error scenario
-      }
-    );
+    this.authService
+      .getTokenFromLocalStorage()
+      .subscribe((token: string | null) => {
+        if (!token) {
+          console.error('No token found in local storage');
+          return;
+        }
+        this.associationService
+          .update(this._paramId, this.associationForm.value, token)
+          .subscribe(
+            (updatedAssociation: IAssociation) => {
+              console.log(
+                'Association updated successfully:',
+                updatedAssociation,
+                this._paramId,
+                this.associationForm.value
+              );
+              this.router.navigate(['/associations/' + this._paramId]);
+            },
+            (error) => {
+              console.error('Error updating association:', error);
+              // Handle error scenario
+            }
+          );
+      });
   }
 
   createAssociation(): void {
-    this.associationService.create(this.associationForm.value).subscribe(
-      (createdAssociation: IAssociation) => {
-        console.log('Association created successfully:', createdAssociation);
-        this.router.navigate(['/associations']);
-      },
-      (error) => {
-        console.error('Error creating association:', error);
-      }
-    );
+    this.authService
+      .getTokenFromLocalStorage()
+      .subscribe((token: string | null) => {
+        if (!token) {
+          console.error('No token found in local storage');
+          return;
+        }
+        this.associationService.create(this.associationForm.value, token).subscribe(
+          (createdAssociation: IAssociation) => {
+            console.log(
+              'Association created successfully:',
+              createdAssociation
+            );
+            this.router.navigate(['/associations']);
+          },
+          (error) => {
+            console.error('Error creating association:', error);
+          }
+        );
+      });
   }
 }

@@ -4,6 +4,7 @@ import { IAdmin, IAssociation } from '@sportify-nx/shared/api';
 import { Subscription } from 'rxjs';
 import { AssociationService } from '../../association/association.service';
 import { AdminService } from '../admin.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'sportify-nx-admin-edit',
@@ -21,7 +22,7 @@ export class AdminEditComponent implements OnInit, OnDestroy{
   _paramId: string | null = null;
   associations: IAssociation[] | null = null;
   
-  constructor(private associationService: AssociationService, private adminService: AdminService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService, private associationService: AssociationService, private adminService: AdminService, private route: ActivatedRoute, private router: Router) { }
   
   ngOnInit(): void {
     this.subscription = this.associationService.list().subscribe((results) => {
@@ -72,7 +73,13 @@ export class AdminEditComponent implements OnInit, OnDestroy{
     }
   }
   updateAdmin(): void {
-    this.adminService.update(this._paramId, this.admin).subscribe(
+    this.authService.getTokenFromLocalStorage().subscribe(
+      (token: string | null) => {
+        if (!token) {
+          console.error('No token found in local storage');
+          return;
+        }
+    this.adminService.update(this._paramId, this.admin, token).subscribe(
       (updatedAdmin: IAdmin) => {
         console.log('Admin updated successfully:', updatedAdmin, this._paramId,this.admin);
         this.router.navigate(['/admin/' + this.admin._id]);
@@ -81,11 +88,19 @@ export class AdminEditComponent implements OnInit, OnDestroy{
         console.error('Error updating admin:', error);
         // Handle error scenario
       }
-    );
-  }
+      );
+    }
+  );
+}
   
   createAdmin(): void {
-      this.adminService.create(this.admin).subscribe(
+    this.authService.getTokenFromLocalStorage().subscribe(
+      (token: string | null) => {
+        if (!token) {
+          console.error('No token found in local storage');
+          return;
+        }
+      this.adminService.create(this.admin, token).subscribe(
         (createdAdmin: IAdmin) => {
           console.log('Admin created successfully:', createdAdmin);
           this.router.navigate(['/admin']);
@@ -93,7 +108,8 @@ export class AdminEditComponent implements OnInit, OnDestroy{
         (error) => {
           console.error('Error creating admin:', error);
         }
-      );
-    
+        );
+      }
+    );
   }
 }

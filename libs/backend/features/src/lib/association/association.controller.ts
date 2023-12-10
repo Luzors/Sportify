@@ -20,6 +20,7 @@ import { AdminService } from '../admin/admin.service';
 import { Admin } from '../admin/schemas/admin.schema';
 import { Public } from '../auth/decorators/public.decorator';
 import { UserService } from '../user/user.service';
+import { User } from '../user/schemas/user.schema';
 
 @Controller('associations')
 export class AssociationController {
@@ -94,13 +95,26 @@ export class AssociationController {
     @Body() updateAssociationDto: UpdateAssociationDto
   ): Promise<Association> {
     const userEmail = (request as any)['user'];
-    if (!userEmail) {
-      throw new UnauthorizedException('Only logged in editors can update an association');
-    }
-    const currentUser = await this.userService.findByEmail(userEmail.email); 
+    const adminReq = (request as any)['admin'];
 
-    if (currentUser?.roles === 'editor') {
-      console.log('Create association');
+    let currentUser;
+    if (!userEmail) {
+      currentUser = await this.userService.findByEmail(userEmail.email);
+    } else if (!adminReq) {
+      currentUser = await this.adminService.findByEmail(adminReq.email);
+    } else {
+      throw new UnauthorizedException(
+        'You need to be logged in to update an admin'
+      );
+    }
+  
+    const association = await this.associationService.findById(associationId);
+    console.log('association id', association?._id);
+    if (
+      (association && currentUser instanceof Admin && currentUser?.association === association._id) || 
+      (currentUser instanceof User && currentUser?.roles === 'editor')
+    ) {
+      console.log('Update association');
       try {
         const updatedAssociation = await this.associationService.update(
           associationId,
@@ -111,11 +125,11 @@ export class AssociationController {
         if (error instanceof NotFoundException) {
           throw new NotFoundException(error.message);
         }
-        throw error; // Rethrow other errors
+        throw error;
       }
-    } else if (!currentUser) {
-      throw new NotFoundException('User not logged in');
-    } else {
+    } else if (!association) {  
+      throw new NotFoundException('Association not found');
+    } else {  
       throw new UnauthorizedException('You can only update an association if you are an editor');
     }
   }
