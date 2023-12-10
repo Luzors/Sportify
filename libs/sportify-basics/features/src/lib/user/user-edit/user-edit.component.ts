@@ -17,6 +17,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   subscription: Subscription | undefined;
   _paramId: string | null = null;
   associations: IAssociation[] | null = null;
+  username: string | null = null;
 
   constructor(
     private authService: AuthService,
@@ -49,6 +50,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.subscription = this.userService.read(_id).subscribe(
           (user: IUser) => {
             if (user) {
+              this.username = user.name;
               this.userForm.patchValue(user);
             } else {
               console.error('User not found');
