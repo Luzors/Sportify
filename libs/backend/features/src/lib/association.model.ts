@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AssociationController } from './association/association.controller';
 import { AssociationService } from './association/association.service';
@@ -24,9 +24,9 @@ import { User, UserSchema } from './user/schemas/user.schema';
   controllers: [AssociationController],
   providers: [
     { provide: APP_GUARD, useClass: AuthGuard },
-    { provide: UserService, useFactory: () => forwardRef(() => UserService) },
-    { provide: AssociationService, useFactory: () => forwardRef(() => AssociationService) },
-    { provide: AdminService, useFactory: () => forwardRef(() => AdminService) },
+    UserService,
+    AssociationService,
+    AdminService,
   ],
   exports: [
     AssociationService,

@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -20,10 +20,11 @@ import { Event, EventSchema } from './event/schemas/event.schema';
   controllers: [UserController],
   providers: [
     { provide: APP_GUARD, useClass: AuthGuard },
-    { provide: UserService, useFactory: () => forwardRef(() => UserService) },
-    { provide: AuthService, useFactory: () => forwardRef(() => AuthService) },
-    { provide: AdminService, useFactory: () => forwardRef(() => AdminService) },
-    { provide: EventService, useFactory: () => forwardRef(() => EventService) },
+    UserService,
+    AuthService,
+    AdminService,
+    EventService,
+
   ],
   exports: [
     UserService,
