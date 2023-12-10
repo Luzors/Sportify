@@ -4,12 +4,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateAssociationDto, UpdateAssociationDto } from '@sportify-nx/backend/dto';
 import { Sports } from '@sportify-nx/shared/api';
-import { AdminService } from '../admin/admin.service';
 
 
 @Injectable()
 export class AssociationService {
-    constructor(@InjectModel(Association.name) private readonly associationModel: Model<Association>, private adminService: AdminService){
+    constructor(@InjectModel(Association.name) private readonly associationModel: Model<Association>){
         this.seedDb();
     }
     async seedDb(){
@@ -45,7 +44,6 @@ export class AssociationService {
       }
 
       async delete(_id: string): Promise<void> {
-        await this.adminService.deleteAllByAssociation(_id);
         const result = await this.associationModel.deleteOne({ _id }).exec();
     
         if (result.deletedCount === 0) {

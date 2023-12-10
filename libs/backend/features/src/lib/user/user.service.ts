@@ -4,12 +4,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto, UpdateUserDto } from '@sportify-nx/backend/dto';
 import { JwtService } from '@nestjs/jwt';
-import { EventService } from '../event/event.service';
 
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private readonly userModel: Model<User>, private jwtService: JwtService, private eventService:EventService){
+    constructor(@InjectModel(User.name) private readonly userModel: Model<User>, private jwtService: JwtService){
     }
 
     async create(createUserDto: CreateUserDto): Promise<User> {
@@ -33,7 +32,6 @@ export class UserService {
 
       async delete(_id: string): Promise<void> {
         
-        await this.eventService.removeUserFromAllEvents(_id);
         const result = await this.userModel.deleteOne({ _id }).exec();
     
         if (result.deletedCount === 0) {

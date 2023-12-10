@@ -36,8 +36,8 @@ export class AdminEditComponent implements OnInit, OnDestroy {
     this.adminForm = this.fb.group({
       id: [{ value: null, disabled: true }],
       name: ['', [Validators.required]],
-      email: ['', [Validators.email]],
-      password: ['', []],
+      email: ['', [Validators.email,Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
       association: ['', []],
     });
   }

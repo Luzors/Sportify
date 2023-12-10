@@ -42,7 +42,12 @@
           formControlName="email"
           class="p-3 bg-gray-200 rounded w-full"
         />
-        <!-- Add validation messages if needed -->
+        <div
+          *ngIf="adminForm.get('email')!.hasError('email') && adminForm.get('email')!.touched"
+          class="text-red-500 mt-1"
+        >
+          Enter a valid email address
+        </div>
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
@@ -51,7 +56,12 @@
           formControlName="password"
           class="p-3 bg-gray-200 rounded w-full"
         />
-        <!-- Add validation messages if needed -->
+        <div
+          *ngIf="adminForm.get('password')!.hasError('required') && adminForm.get('password')!.touched"
+          class="text-red-500 mt-1"
+        >
+          Password is required and needs to be longer then 3 characters
+        </div>
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2">Association</label>
@@ -63,7 +73,6 @@
             {{ association.name }}
           </option>
         </select>
-        <!-- Add validation messages if needed -->
       </div>
     </form>
   </div>
